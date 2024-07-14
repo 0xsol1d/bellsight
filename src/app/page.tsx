@@ -2,22 +2,15 @@
 import { useEffect, useState } from "react";
 import React from 'react';
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
 
 import { Navbar, Footer } from "../components"
 
 export default function Home() {
-  const router = useRouter()
-
-  const [balance, setBalance] = useState<any>();
-  const [address, setAddress] = useState<any>();
-
   const [dataCG, setDataCG] = useState<any>()
   const [dataN, setDataN] = useState<any>()
   const [blocks, setBlocks] = useState<any>()
-  const [isLoading, setLoading] = useState(true)
 
-  const [value, setValue] = useState<any>("");
+  const [message, setMessage] = useState<any>("")
 
   useEffect(() => {
     GetPrice()
@@ -60,19 +53,27 @@ export default function Home() {
       })
   }
 
-  const Search = async (input: any) => {
-    console.log("YOUR INPUT: " + input)
-    if (isNaN(input)) {
-      if (value.length == 64) {
-        router.push("/tx/" + value);
-      }
-      else if (value.length <= 35) {
-        router.push("/address/" + value);
-      }
-    }
-    else {
-      router.push("/block/" + value);
-    }
+  const copyAddress = async (val: any) => {
+    await navigator.clipboard.writeText(val);
+    showAlert("Copied block id!")
+  }
+
+  function showAlert(msg: string) {
+    setMessage(msg)
+    const alert = document.getElementById('alert');
+    alert?.classList.remove('opacity-0');
+    alert?.classList.add('opacity-100');
+
+    // Alert nach 3 Sekunden wieder ausblenden
+    setTimeout(() => {
+      closeAlert();
+    }, 3000);
+  }
+
+  function closeAlert() {
+    const alert = document.getElementById('alert');
+    alert?.classList.remove('opacity-100');
+    alert?.classList.add('opacity-0');
   }
 
   return (
@@ -105,6 +106,12 @@ export default function Home() {
         </div>
       }
       <Footer />
+      <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
+        <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">
+          <span>{message}</span>
+          <button onClick={() => closeAlert()} className="ml-auto btn btn-sm btn-circle btn-ghost">✕</button>
+        </div>
+      </div>
     </div>
   );
 }
