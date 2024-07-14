@@ -11,8 +11,6 @@ export default function Block() {
   const router = useRouter()
   const [data, setData] = useState<any>()
 
-  const [value, setValue] = useState<any>("");
-
   const GetBlocks = async () => {
     await fetch('https://api.nintondo.io/api/blocks')
       .then((res) => res.json())
@@ -40,21 +38,6 @@ export default function Block() {
           setData((state: any) => [...state, element])
         });
       })
-  }
-
-  const Search = async (input: any) => {
-    console.log("YOUR INPUT: " + input)
-    if (isNaN(input)) {
-      if (value.length == 64) {
-        router.push("/tx/" + value);
-      }
-      else if (value.length <= 35) {
-        router.push("/address/" + value);
-      }
-    }
-    else {
-      router.push("/block/" + value);
-    }
   }
 
   useEffect(() => {

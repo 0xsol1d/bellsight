@@ -10,29 +10,12 @@ export default function Block() {
   const router = useRouter()
   const [data, setData] = useState<any>()
 
-  const [value, setValue] = useState<any>("");
-
   const GetTopHolders = async () => {
     await fetch('https://api.nintondo.io/api/top-owners')
       .then((res) => res.json())
       .then((result) => {
         setData(result)
       })
-  }
-
-  const Search = async (input: any) => {
-    console.log("YOUR INPUT: " + input)
-    if (isNaN(input)) {
-      if (value.length == 64) {
-        router.push("/tx/" + value);
-      }
-      else if (value.length <= 35) {
-        router.push("/address/" + value);
-      }
-    }
-    else {
-      router.push("/block/" + value);
-    }
   }
 
   useEffect(() => {
