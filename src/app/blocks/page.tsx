@@ -91,8 +91,8 @@ export default function Block() {
           </div>
           <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4" onScroll={handleScroll}>
             {data?.map((block: any, index: any) => (
-              <Link passHref href={`/block/${block.id}`}>
-                <div key={index} className="grid grid-cols-6 border-b-2 border-l-2 border-r-2 hover:bg-gray-900 p-2">
+              <Link  key={index} passHref href={`/block/${block.id}`}>
+                <div className="grid grid-cols-6 border-b-2 border-l-2 border-r-2 hover:bg-gray-900 p-2">
                   <div className="col-span-1 text-center place-content-center">{block.height}</div>
                   <div className="col-span-3 text-center truncate place-content-center">{block.id}</div>
                   <div className="col-span-1 text-center ml-2 place-content-center">{dateFns.format(dateFns.fromUnixTime(block.timestamp), "yyyy/MM/dd - HH:mm:ss")}</div>
