@@ -17,7 +17,13 @@ export const Navbar = () => {
     const Search = async (input: any) => {
         if (isNaN(input)) {
             if (value.length == 64) {
-                router.push("/tx/" + value);
+                    await fetch('https://api.nintondo.io/api/tx/' + input)
+                      .then((res) => {
+                        if (res.status == 404)
+                            router.push("/block/" + value);
+                        else
+                            router.push("/tx/" + value);
+                      })
             }
             else if (value.length <= 35) {
                 router.push("/address/" + value);
@@ -36,7 +42,7 @@ export const Navbar = () => {
                     <ul tabIndex={0} className="mt-1 text-md shadow menu dropdown-content bg-base-200 rounded border border-gray-500 w-[10rem]">
                         <Link passHref href={`/`} className="hover:bg-gray-800 rounded p-1">OVERVIEW</Link>
                         <Link passHref href={`/blocks`} className="hover:bg-gray-800 rounded p-1">LATEST BLOCKS</Link>
-                        <Link passHref href={`/txs`} className="hover:bg-gray-800 rounded p-1">LATEST TX</Link>
+                        <div className="hover:bg-gray-800 rounded p-1 line-through">LATEST TX</div>
                         <Link passHref href={`/holders`} className="hover:bg-gray-800 rounded p-1">TOP HOLDERS</Link>
                         <Link passHref href={`/tokens`} className="hover:bg-gray-800 rounded p-1">TOKENS</Link>
                     </ul>
