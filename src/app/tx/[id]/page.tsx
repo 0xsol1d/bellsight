@@ -130,8 +130,8 @@ export default function Tx({ params }: { params: { id: string } }) {
           <div className='grid place-content-center'>
             <div className='text-center'>INPUTS</div>
             {data?.vin.map((tx: any, index: any) => (
-              <Link passHref href={`/tx/${tx.txid}`}>
-                <div key={index} className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
+              <Link key={index} passHref href={`/tx/${tx.txid}`}>
+                <div className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
                   <div className="col-span-2 place-content-center truncate">{tx.txid}</div>
                   <div className="col-span-1 text-right truncate place-content-center">{(tx.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                 </div>
@@ -144,8 +144,8 @@ export default function Tx({ params }: { params: { id: string } }) {
           <div className='grid place-content-center'>
             <div className='text-center'>OUTPUTS</div>
             {data?.vout.map((tx: any, index: any) => (
-              <Link passHref href={`/address/${tx.scriptpubkey_address}`}>
-                <div key={index} className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
+              <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
+                <div className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
                   <div className="col-span-2 place-content-center truncate">{tx.scriptpubkey_address}</div>
                   <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                 </div>
