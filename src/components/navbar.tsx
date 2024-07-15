@@ -15,7 +15,6 @@ export const Navbar = () => {
       };
 
     const Search = async (input: any) => {
-        console.log("YOUR INPUT: " + input)
         if (isNaN(input)) {
             if (value.length == 64) {
                 router.push("/tx/" + value);

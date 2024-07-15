@@ -14,7 +14,6 @@ export default function Block({ params }: { params: { id: string } }) {
     await fetch('https://api.nintondo.io/api/address/' + addr)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
         setData(result)
       })
   }

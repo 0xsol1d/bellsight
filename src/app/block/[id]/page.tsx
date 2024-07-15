@@ -9,7 +9,6 @@ import { Navbar, Footer } from "../../../components"
 export default function Block({ params }: { params: { id: any } }) {
   const [data, setData] = useState<any>()
   const [blocks, setBlocks] = useState<any>()
-  const [block, setBlock] = useState<any>()
   const [method, setMethod] = useState<any>("")
   const [message, setMessage] = useState<any>("")
 
@@ -33,7 +32,6 @@ export default function Block({ params }: { params: { id: any } }) {
     await fetch('https://api.nintondo.io/api/block/' + id)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
         setData(result)
       })
   }
@@ -136,7 +134,7 @@ export default function Block({ params }: { params: { id: any } }) {
               </div>
               <div className='grid grid-cols-2'>
                 <div>Size:</div>
-                <div className='text-right'>{data.size}</div>
+                <div className='text-right'>{data.size} byte</div>
               </div>
               <div className='grid grid-cols-2'>
                 <div>Bits:</div>
