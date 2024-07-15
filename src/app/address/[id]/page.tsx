@@ -50,13 +50,13 @@ export default function Block({ params }: { params: { id: string } }) {
 
     <div className="min-h-screen">
       <Navbar />
-
+      <div className=''>
       {data &&
-        <div className="grid grid-flow-row auto-rows-max place-content-center">
-          <h1 className="text-center mt-2">ADDRESS</h1>
+        <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
+          <h1 className="text-center lg:mt-0 mt-16">ADDRESS</h1>
           <br />
           <div>
-            <div className='flex justify-center mb-4'> <button className='hover:text-blue-500' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
+            <div className='flex justify-center mb-4'> <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
             <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
             <div>
@@ -104,6 +104,8 @@ export default function Block({ params }: { params: { id: string } }) {
           </div>
         </div>
       }
+      <div className='flex items-center justify-center mt-8 text-center'>TX fetching for addresses not possible yet and will be implemented in future releases.</div>
+      </div>
       <Footer />
       <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
         <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">

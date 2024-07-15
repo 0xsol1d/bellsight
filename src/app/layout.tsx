@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} data-theme="night">{children}</body>
+      <body className="text-sm lg:text-lg" data-theme="night">{children}</body>
     </html>
   );
 }

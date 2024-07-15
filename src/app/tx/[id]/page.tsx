@@ -52,7 +52,7 @@ export default function Tx({ params }: { params: { id: string } }) {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center mt-2">TX {params.id}</h1>
+          <h1 className="text-center lg:mt-0 mt-16">TX {params.id}</h1>
           <br />
         </div>
       }

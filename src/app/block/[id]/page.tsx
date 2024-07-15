@@ -6,9 +6,11 @@ import * as dateFns from "date-fns"
 
 import { Navbar, Footer } from "../../../components"
 
-export default function Block({ params }: { params: { id: string } }) {
+export default function Block({ params }: { params: { id: any } }) {
   const [data, setData] = useState<any>()
   const [blocks, setBlocks] = useState<any>()
+  const [block, setBlock] = useState<any>()
+  const [method, setMethod] = useState<any>("")
   const [message, setMessage] = useState<any>("")
 
   const GetBlocks = async () => {
@@ -19,7 +21,15 @@ export default function Block({ params }: { params: { id: string } }) {
       })
   }
 
-  const GetBlock = async (id: any) => {
+  const GetBlockById = async (id: any) => {
+    await fetch('https://api.nintondo.io/api/blocks/' + id)
+      .then((res) => res.json())
+      .then(async (result) => {
+        setData(result[0])
+      })
+  }
+
+  const GetBlockByHash = async (id: any) => {
     await fetch('https://api.nintondo.io/api/block/' + id)
       .then((res) => res.json())
       .then((result) => {
@@ -32,7 +42,7 @@ export default function Block({ params }: { params: { id: string } }) {
     await navigator.clipboard.writeText(val);
     showAlert("Copied block id!")
   }
-
+ 
   function dec2Hex(dec: any) {
     return Math.abs(dec).toString(16);
   }
@@ -57,7 +67,14 @@ export default function Block({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     GetBlocks()
-    GetBlock(params.id)
+    if (isNaN(params.id)) {
+      setMethod("hash")
+      GetBlockByHash(params.id)
+    }
+    else {
+      setMethod("id")
+      GetBlockById(params.id)
+    }
   }, []);
 
   return (
@@ -65,11 +82,17 @@ export default function Block({ params }: { params: { id: string } }) {
     <div className="min-h-screen">
       <Navbar />
       {data && blocks &&
-        <div className="grid grid-flow-row auto-rows-max place-content-center">
-          <h1 className="text-center mt-2">BLOCK</h1>
-          <br />
+        <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
+          <h1 className="text-center lg:mt-0 mt-16">BLOCK</h1>
           <div>
-            <div className='flex justify-center mb-4'> <button className='hover:text-blue-500' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
+            <div className='flex justify-center mb-4'>
+              {method == "id" &&
+                <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(data.id)}>{data.id}</button>
+              }
+              {method == "hash" &&
+                <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button>
+              }
+            </div>
             <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
             <div>
@@ -135,6 +158,7 @@ export default function Block({ params }: { params: { id: string } }) {
           </div>
         </div>
       }
+      <div className='flex items-center justify-center mt-8 text-center'>TX fetching for blocks not possible yet and will be implemented in future releases.</div>
       <Footer />
       <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
         <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">

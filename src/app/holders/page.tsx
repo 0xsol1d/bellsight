@@ -52,14 +52,13 @@ export default function Block() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center mt-2">TOP 100 HOLDERS</h1>
-          <br />
+          <h1 className="text-center lg:mt-0 mt-16">TOP 100 HOLDERS</h1>
           <div className="grid grid-cols-4 mt-6 mx-4">
             <div className="col-span-1 text-center border-2 rounded-tl-lg">No</div>
             <div className="col-span-2 text-center border-2">ADDRESS</div>
             <div className="col-span-1 text-center border-2 rounded-tr-lg">$BEL</div>
           </div>
-          <div className="h-[45rem] overflow-auto mx-4">
+          <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4">
             {data?.map((element: any, index: any) => (
               <div key={index} className="grid grid-cols-4 border-b-2 border-l-2 border-r-2 hover:bg-gray-900 p-2">
                 <div className="col-span-1 text-center place-content-center">{index + 1}</div>

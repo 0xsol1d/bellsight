@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
 import React from 'react';
-import Link from "next/link";
 
 import { Navbar, Footer } from "../components"
 
@@ -82,24 +81,23 @@ export default function Home() {
 
       {dataCG &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center text-3xl mt-2">OVERVIEW</h1>
-          <br />
+          <h1 className="text-center lg:mt-0 mt-16">OVERVIEW</h1>
           <div className="grid lg:grid-cols-2">
             <div>
               <h1 className="text-center place-content-center p-4 underline">PRICE</h1>
-              <div className="flex justify-center">
+              <div className="grid lg:grid-cols-4 grid-cols-2">
                 <div className="text-center p-4"><div>MARKETCAP</div><br /><div>{(((dataN.circulating_supply) / 100000000) * dataCG.market_data.current_price.usd).toLocaleString(undefined, { minimumFractionDigits: 0 })}$</div></div>
                 <div className="text-center border-l-2 p-4"><div>PRICE</div><div>{dataCG.market_data.current_price.usd}$</div><div>{(dataCG.market_data.price_change_24h).toFixed(6)}$</div></div>
-                <div className="text-center border-l-2 p-4"><div>ATH</div><div>{dataCG.market_data.ath.usd}$</div><div>{(dataCG.market_data.ath_change_percentage.usd).toFixed(2)}%</div></div>
+                <div className="text-center lg:border-l-2 p-4"><div>ATH</div><div>{dataCG.market_data.ath.usd}$</div><div>{(dataCG.market_data.ath_change_percentage.usd).toFixed(2)}%</div></div>
                 <div className="text-center border-l-2 p-4"><div>ATL</div><div>{dataCG.market_data.atl.usd}$</div><div>{(dataCG.market_data.atl_change_percentage.usd).toFixed(2)}%</div></div>
               </div>
             </div>
             <div>
               <h1 className="text-center place-content-center p-4 underline">BLOCKCHAIN</h1>
-              <div className="flex justify-center">
+              <div className="grid lg:grid-cols-4 grid-cols-2">
                 <div className="text-center rounded-l-xl p-4"><div>SUPPLY</div><br /><div>{((dataN.circulating_supply) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0 })}</div></div>
                 <div className="text-center border-l-2 p-4"><div>BLOCK HEIGHT</div><br /><div>{blocks[0].height}</div></div>
-                <div className="text-center border-l-2 rounded-r-xl p-4"><div>DIFFICULTY</div><br /><div>{(dataN.difficulty).toFixed(0)}</div></div>
+                <div className="text-center lg:border-l-2 rounded-r-xl lg:p-4"><div>DIFFICULTY</div><br /><div>{(dataN.difficulty).toFixed(0)}</div></div>
               </div>
             </div>
           </div>

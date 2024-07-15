@@ -9,7 +9,7 @@ export const Footer = () => {
     const router = useRouter()
     return (
         <div className="fixed bottom-0 left-0 right-0 bg-base-300 p-2 flex justify-between">
-            <h1></h1>
+            <div className="text-lg">V0.1</div>            
             <div className="flex space-x-3">
                 <a href="https://bellscoin.com" target="_blank"><img src="/home.png" className="h-8" /></a>
                 <a href="https://discord.com/invite/wXUXhkRQts" target="_blank"><img src="/discord.png" className="h-8" /></a>

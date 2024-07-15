@@ -53,14 +53,14 @@ export default function Block() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center mt-2">TOKENS</h1>
-          <br /><div className="grid grid-cols-7 mt-6 mx-4">
-            <div className="col-span-1 text-center border-2 rounded-tl-lg">TICKER</div>
-            <div className="col-span-3 text-center border-2">GENESIS</div>
-            <div className="col-span-2 text-center border-2">SUPPLY</div>
-            <div className="col-span-1 text-center border-2 rounded-tr-lg">MINT COUNT</div>
+          <h1 className="text-center lg:mt-0 mt-16">TOKENS</h1>
+          <div className="grid grid-cols-7 mt-6 mx-4">
+            <div className="col-span-1 text-center border-2 rounded-tl-lg truncate">TICKER</div>
+            <div className="col-span-3 text-center border-2 truncate">GENESIS</div>
+            <div className="col-span-2 text-center border-2 truncate">SUPPLY</div>
+            <div className="col-span-1 text-center border-2 rounded-tr-lg truncate">MINT COUNT</div>
           </div>
-          <div className="h-[45rem] overflow-auto mx-4">
+          <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4">
             {data?.map((element: any, index: any) => (
               <div key={index} className="grid grid-cols-7 border-b-2 border-l-2 border-r-2 hover:bg-gray-900 p-2">
                 <div className="col-span-1 text-center place-content-center">{element.tick}</div>
