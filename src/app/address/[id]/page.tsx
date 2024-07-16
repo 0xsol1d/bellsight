@@ -154,7 +154,7 @@ export default function Block({ params }: { params: { id: string } }) {
                 <div className='lg:flex justify-between'>
                   <div className='grid place-content-center'>
                     {tx?.vin.map((data: any, index: any) => (
-                      <>
+                      <div  key={index}>
                         {data.prevout != null &&
                           <Link key={index} passHref href={`/tx/${tx.txid}`}>
                             <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
@@ -168,7 +168,7 @@ export default function Block({ params }: { params: { id: string } }) {
                             <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
                           </div>
                         }
-                      </>
+                      </div>
                     ))}
                   </div>
                   <br className='block lg:hidden' />
