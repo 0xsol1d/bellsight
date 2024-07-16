@@ -7,14 +7,14 @@ import { Navbar, Footer } from "../../../components"
 
 export default function Tx({ params }: { params: { id: string } }) {
   const [data, setData] = useState<any>()
-  const [blocks, setBlocks] = useState<any>()
+  const [height, setHeight] = useState<any>()
   const [message, setMessage] = useState<any>("")
 
-  const GetBlocks = async () => {
-    await fetch('https://api.nintondo.io/api/blocks')
+  const GetHeight = async () => {
+    await fetch('https://api.nintondo.io/api/blocks/tip/height')
       .then((res) => res.json())
       .then(async (result) => {
-        setBlocks(result)
+        setHeight(result)
       })
   }
 
@@ -22,6 +22,7 @@ export default function Tx({ params }: { params: { id: string } }) {
     await fetch('https://api.nintondo.io/api/tx/' + id)
       .then((res) => res.json())
       .then((result) => {
+        console.log(result)
         setData(result)
       })
   }
@@ -50,7 +51,7 @@ export default function Tx({ params }: { params: { id: string } }) {
   }
 
   useEffect(() => {
-    GetBlocks()
+    GetHeight()
     GetTransaction(params.id)
   }, []);
 
@@ -60,22 +61,23 @@ export default function Tx({ params }: { params: { id: string } }) {
       <Navbar />
 
       <div className=''>
-        {data && blocks &&
+        {data && height &&
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
             <h1 className="text-center lg:mt-0 mt-16">TX</h1>
-            <br />
             <div>
-              <div className='flex justify-center mb-4'> <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
+              <div className='flex justify-center mb-4'>
+                <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button>
+              </div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
-              <div>
+              <div className='rounded-lg bg-base-300 p-2 mb-4'>
                 <div className='grid grid-cols-2 mb-4'>
                   <div>Confirmations:</div>
                   {data.status.confirmed.toString() == "false" &&
                     <div className='text-right'>not confirmed</div>
                   }
                   {data.status.confirmed.toString() == "true" &&
-                    <div className='text-right'>{blocks[0].height - data.status.block_height + 1}</div>
+                    <div className='text-right'>{height - data.status.block_height + 1}</div>
                   }
                 </div>
                 <div className='grid grid-cols-2 border-b-2 mb-4'></div>
@@ -95,7 +97,9 @@ export default function Tx({ params }: { params: { id: string } }) {
                     <div className='text-right truncate'>not included</div>
                   }
                   {data.status.confirmed.toString() == "true" &&
-                    <div className='text-right truncate'>{data.status.block_hash}</div>
+                    <Link passHref href={`/block/${data.status.block_hash}`}>
+                      <div className='text-right text-blue-500 truncate'>{data.status.block_hash}</div>
+                    </Link>
                   }
                 </div>
                 <div className='grid grid-cols-2 border-b-2 mb-4'></div>
@@ -124,35 +128,54 @@ export default function Tx({ params }: { params: { id: string } }) {
 
               </div>
             </div>
+            <div className='text-xs p-4 mb-6 rounded-lg bg-base-300'>
+              <div className='lg:flex justify-between'>
+                <div className='grid place-content-center'>
+                  {data?.vin.map((data: any, index: any) => (
+                    <>
+                      {data.prevout != null &&
+                        <Link key={index} passHref href={`/tx/${data.txid}`}>
+                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
+                            <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
+                            <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                          </div>
+                        </Link>
+                      }
+                      {data.prevout == null &&
+                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg p-4 w-full">
+                          <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
+                        </div>
+                      }
+                    </>
+                  ))}
+                </div>
+                <br className='block lg:hidden' />
+                <div className='lg:grid place-content-center text-3xl hidden'>🠺</div>
+                <div className='grid place-content-center text-3xl lg:hidden'>🠻</div>
+                <br className='block lg:hidden' />
+                <div className='grid place-content-center'>
+                  {data?.vout.map((tx: any, index: any) => (
+                    <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
+                      <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 mb-1">
+                        {tx.scriptpubkey_type == "op_return" &&
+                          <>
+                            <div className="col-span-3 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left'>OP_RETURN</div></div>
+                          </>
+                        }
+                        {tx.scriptpubkey_type != "op_return" &&
+                          <>
+                            <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500'>{tx.scriptpubkey_address}</div></div>
+                            <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                          </>
+                        }
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         }
-        <div className='lg:flex text-xs justify-between p-4 mb-16'>
-          <div className='grid place-content-center'>
-            <div className='text-center'>INPUTS</div>
-            {data?.vin.map((tx: any, index: any) => (
-              <Link key={index} passHref href={`/tx/${tx.txid}`}>
-                <div className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
-                  <div className="col-span-2 place-content-center truncate">{tx.txid}</div>
-                  <div className="col-span-1 text-right truncate place-content-center">{(tx.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <br className='block lg:hidden' />
-          <div className='grid place-content-center'>{`===>`}</div>
-          <br className='block lg:hidden' />
-          <div className='grid place-content-center'>
-            <div className='text-center'>OUTPUTS</div>
-            {data?.vout.map((tx: any, index: any) => (
-              <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
-                <div className="lg:grid grid-cols-3 border-2 hover:bg-gray-900 p-2">
-                  <div className="col-span-2 place-content-center truncate">{tx.scriptpubkey_address}</div>
-                  <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
       <Footer />
       <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">

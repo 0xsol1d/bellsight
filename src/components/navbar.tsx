@@ -42,7 +42,6 @@ export const Navbar = () => {
                     <ul tabIndex={0} className="mt-1 text-md shadow menu dropdown-content bg-base-200 rounded border border-gray-500 w-[10rem]">
                         <Link passHref href={`/`} className="hover:bg-gray-800 rounded p-1">OVERVIEW</Link>
                         <Link passHref href={`/blocks`} className="hover:bg-gray-800 rounded p-1">LATEST BLOCKS</Link>
-                        <div className="hover:bg-gray-800 rounded p-1 line-through">LATEST TX</div>
                         <Link passHref href={`/holders`} className="hover:bg-gray-800 rounded p-1">TOP HOLDERS</Link>
                         <Link passHref href={`/tokens`} className="hover:bg-gray-800 rounded p-1">TOKENS</Link>
                     </ul>
