@@ -131,14 +131,14 @@ export default function Tx({ params }: { params: { id: string } }) {
 
               </div>
             </div>
-            <div className='text-xs p-4 mb-12 rounded-lg bg-base-300'>
+            <div className='text-xs p-4 mb-16 rounded-lg bg-base-300'>
               <div className='lg:flex justify-between'>
                 <div className='grid place-content-center'>
                   {data?.vin.map((data: any, index: any) => (
                     <>
                       {data.prevout != null &&
                         <Link key={index} passHref href={`/tx/${data.txid}`}>
-                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full break-all">
+                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full break-all mb-1">
                             <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
                             <div className="col-span-1 text-right  place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                           </div>

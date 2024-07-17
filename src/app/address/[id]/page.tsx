@@ -154,7 +154,7 @@ export default function Block({ params }: { params: { id: string } }) {
               </div>
             </div>
             {txs?.map((tx: any, index: any) => (
-              <div key={index} className='text-xs p-4 mb-6 rounded-lg bg-base-300 break-all'>
+              <div key={index} className='text-xs p-4 mb-16 rounded-lg bg-base-300 break-all'>
                 <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate flex'><div className='text-blue-500 mb-4 break-words truncate rounded hover:text-blue-300'>{tx.txid}</div><img src="/logo2.png" alt="tmp" className='h-4 ml-1' /></Link>
                 <div className='lg:flex justify-between'>
                   <div className='grid place-content-center'>
