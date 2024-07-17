@@ -58,19 +58,25 @@ export default function Block() {
             <div className="col-span-2 text-center border-2">ADDRESS</div>
             <div className="col-span-1 text-center border-2 rounded-tr-lg">$BEL</div>
           </div>
-          <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4">
-            {data?.map((element: any, index: any) => (
-              <Link key={index} passHref href={`/address/${element.address}`}>
-                <div className="grid grid-cols-4 border-b-2 border-l-2 border-r-2 hover:bg-base-100 bg-base-300 p-2">
-                  <div className="col-span-1 text-center place-content-center">{index + 1}</div>
-                  <div className="col-span-2 text-center truncate place-content-center">
-                    {element.address}
+          {data[0] != null &&
+            <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4">
+              {data?.map((element: any, index: any) => (
+                <Link key={index} passHref href={`/address/${element.address}`}>
+                  <div className="grid grid-cols-4 border-b-2 border-l-2 border-r-2 hover:bg-base-100 bg-base-300 p-2">
+                    <div className="col-span-1 text-center place-content-center">{index + 1}</div>
+                    <div className="col-span-2 text-center truncate place-content-center">
+                      {element.address}
+                    </div>
+                    <div className="col-span-1 text-center place-content-center">{((element.balance) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
                   </div>
-                  <div className="col-span-1 text-center place-content-center">{((element.balance) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          }
+
+          {data[0] == null &&
+            <div className="col-span-1 text-center place-content-center">Error fetching data</div>
+          }
         </div>
       }
       <Footer />

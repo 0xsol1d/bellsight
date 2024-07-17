@@ -115,6 +115,11 @@ export default function Home() {
                     <div className="text-center lg:border-l-2 rounded-r-xl lg:p-4"><div>DIFFICULTY</div><br /><div>{(dataN.difficulty).toFixed(0)}</div></div>
                   </>
                 }
+                
+                {dataN.difficulty == null &&
+                  <div className="text-center rounded-l-xl p-4">Error fetching data</div>
+                    
+                }
               </div>
             </div>
           </div>
