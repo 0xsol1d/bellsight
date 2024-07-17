@@ -92,8 +92,8 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
 
-      {dataCG && height &&
-        <div className="grid grid-flow-row auto-rows-max"> 
+      {dataCG && dataN && height &&
+        <div className="grid grid-flow-row auto-rows-max">
           <h1 className="text-center lg:mt-0 mt-16">OVERVIEW</h1>
           <div className="grid lg:grid-cols-2">
             <div>
@@ -108,9 +108,13 @@ export default function Home() {
             <div>
               <h1 className="text-center place-content-center p-4 underline">BLOCKCHAIN</h1>
               <div className="grid lg:grid-cols-3 grid-cols-2">
-                <div className="text-center rounded-l-xl p-4"><div>SUPPLY</div><br /><div>{((dataN.circulating_supply) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0 })}</div></div>
-                <div className="text-center border-l-2 p-4"><div>BLOCK HEIGHT</div><br /><div>{height}</div></div>
-                <div className="text-center lg:border-l-2 rounded-r-xl lg:p-4"><div>DIFFICULTY</div><br /><div>{(dataN.difficulty).toFixed(0)}</div></div>
+                {dataN.difficulty != null &&
+                  <>
+                    <div className="text-center rounded-l-xl p-4"><div>SUPPLY</div><br /><div>{((dataN.circulating_supply) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0 })}</div></div>
+                    <div className="text-center border-l-2 p-4"><div>BLOCK HEIGHT</div><br /><div>{height}</div></div>
+                    <div className="text-center lg:border-l-2 rounded-r-xl lg:p-4"><div>DIFFICULTY</div><br /><div>{(dataN.difficulty).toFixed(0)}</div></div>
+                  </>
+                }
               </div>
             </div>
           </div>
