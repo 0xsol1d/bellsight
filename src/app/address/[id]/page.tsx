@@ -90,7 +90,7 @@ export default function Block({ params }: { params: { id: string } }) {
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
             <h1 className="text-center lg:mt-0 mt-16 underline">ADDRESS</h1>
             <div>
-              <div className='flex justify-center mb-4'> <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
+              <div className='flex justify-center mb-4'> <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
               <div className='rounded-lg bg-base-300 p-2 mb-4'>
@@ -157,7 +157,7 @@ export default function Block({ params }: { params: { id: string } }) {
                       <>
                         {data.prevout != null &&
                           <Link key={index} passHref href={`/tx/${tx.txid}`}>
-                            <div className="lg:grid lg:grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
+                            <div className="lg:grid lg:grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
                               <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
                               <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                             </div>
