@@ -93,7 +93,7 @@ export default function Home() {
       <Navbar />
 
       {dataCG && height &&
-        <div className="grid grid-flow-row auto-rows-max">
+        <div className="grid grid-flow-row auto-rows-max"> 
           <h1 className="text-center lg:mt-0 mt-16">OVERVIEW</h1>
           <div className="grid lg:grid-cols-2">
             <div>
