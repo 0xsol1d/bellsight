@@ -115,13 +115,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-4 p-4 mb-12">
+          <div className="grid lg:grid-cols-2 gap-4 p-4 mb-12 break-all">
             <div className="bg-base-200 rounded-lg">
               <h1 className="text-center place-content-center">RECENT TXs</h1>
               {txs?.map((tx: any, index: any) => (
                 <Link key={index} passHref href={`/tx/${tx.txid}`}>
                   <div key={index} className="lg:grid grid-cols-2 hover:bg-gray-900 p-2 w-full text-xs border-base-300 border-t-2">
-                    <div className="truncate text-blue-500">{tx.txid}</div>
+                    <div className="text-blue-500">{tx.txid}</div>
                     <div className="text-right">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                   </div>
                 </Link>
@@ -132,7 +132,7 @@ export default function Home() {
               {blocks?.map((block: any, index: any) => (
                 <Link key={index} passHref href={`/block/${block.id}`}>
                   <div key={index} className="lg:grid grid-cols-2 hover:bg-gray-900 p-2 w-full text-xs border-base-300 border-t-2">
-                    <div className="truncate text-blue-500">{block.id}</div>
+                    <div className="text-blue-500">{block.id}</div>
                     <div className="text-right">{block.height}</div>
                   </div>
                 </Link>
