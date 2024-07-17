@@ -3,7 +3,7 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { Navbar, Footer } from "../../../components"
+import { Navbar, Footer, CopyIcon } from "../../../components"
 
 export default function Tx({ params }: { params: { id: string } }) {
   const [data, setData] = useState<any>()
@@ -66,7 +66,10 @@ export default function Tx({ params }: { params: { id: string } }) {
             <h1 className="text-center lg:mt-0 mt-16 underline">TX</h1>
             <div>
               <div className='flex justify-center mb-4'>
-                <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button>
+                <button className='text-blue-500 hover:text-blue-300 flex' onClick={() => copyAddress(params.id)}>
+                  <div className='break-all'>{params.id}</div>
+                  <CopyIcon />
+                </button>
               </div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
@@ -98,7 +101,7 @@ export default function Tx({ params }: { params: { id: string } }) {
                   }
                   {data.status.confirmed.toString() == "true" &&
                     <Link passHref href={`/block/${data.status.block_hash}`}>
-                      <div className='text-right text-blue-500 truncate'>{data.status.block_hash}</div>
+                      <div className='text-right text-blue-500 hover:text-blue-300 flex'><div className='truncate'>{data.status.block_hash}</div><img src="/logo2.png" alt="tmp" className='h-6 ml-1' /></div>
                     </Link>
                   }
                 </div>

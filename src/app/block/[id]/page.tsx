@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as dateFns from "date-fns"
 
-import { Navbar, Footer } from "../../../components"
+import { Navbar, Footer, CopyIcon } from "../../../components"
 
 export default function Block({ params }: { params: { id: any } }) {
   const [data, setData] = useState<any>()
@@ -96,10 +96,16 @@ export default function Block({ params }: { params: { id: any } }) {
           <div>
             <div className='flex justify-center mb-4'>
               {method == "id" &&
-                <button className='text-blue-500 truncate' onClick={() => copyAddress(data.id)}>{data.id}</button>
+                <button className='text-blue-500 hover:text-blue-300 flex' onClick={() => copyAddress(data.id)}>
+                  <div className='break-all'>{data.id}</div>
+                  <CopyIcon />
+                </button>
               }
               {method == "hash" &&
-                <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button>
+                <button className='text-blue-500 hover:text-blue-300 flex' onClick={() => copyAddress(params.id)}>
+                  <div className='break-all'>{params.id}</div>
+                  <CopyIcon />
+                </button>
               }
             </div>
             <div className='grid grid-cols-2 border-b-2 mb-4'></div>
@@ -124,7 +130,7 @@ export default function Block({ params }: { params: { id: any } }) {
               <div className='grid grid-cols-2 mb-4'>
                 <div>Previous blockhash:</div>
                 <Link passHref href={`/block/${data.previousblockhash}`}>
-                  <div className='text-right text-blue-500 truncate'>{data.previousblockhash}</div>
+                  <div className='flex text-right text-blue-500 hover:text-blue-300'><div className=' truncate'>{data.previousblockhash}</div><img src="/logo2.png" alt="tmp" className='h-6 ml-1' /></div>
                 </Link>
               </div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
@@ -167,21 +173,21 @@ export default function Block({ params }: { params: { id: any } }) {
           </div>
 
           {txs?.map((tx: any, index: any) => (
-            <div key={index} className='lg:flex text-xs justify-between p-4 mb-6 rounded-lg bg-base-300'>
+            <div key={index} className='lg:flex text-xs justify-between p-4 mb-6 rounded-lg bg-base-300 break-all'>
               <div className='grid place-content-center'>
                 {tx?.vin.map((data: any, index: any) => (
                   <>
                     {data.prevout != null &&
-                      <Link key={index} passHref href={`/tx/${tx.txid}`}>
-                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
-                          <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
-                          <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                      <Link key={index} passHref href={`/tx/${tx.txid}`} className=''>
+                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
+                          <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
+                          <div className="col-span-1 text-right place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                         </div>
                       </Link>
                     }
                     {data.prevout == null &&
                       <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg p-4 w-full">
-                        <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
+                        <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
                       </div>
                     }
                   </>

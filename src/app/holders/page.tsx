@@ -3,7 +3,7 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { Navbar, Footer } from "../../components"
+import { Navbar, Footer, CopyIcon } from "../../components"
 
 export default function Block() {
   const [data, setData] = useState<any>()

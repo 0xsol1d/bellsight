@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 
-import { Navbar, Footer } from "../../../components"
+import { Navbar, Footer, CopyIcon } from "../../../components"
 
 export default function Block({ params }: { params: { id: string } }) {
   const [data, setData] = useState<any>()
@@ -57,7 +57,7 @@ export default function Block({ params }: { params: { id: string } }) {
     const alert = document.getElementById('alert');
     alert?.classList.remove('opacity-100');
     alert?.classList.add('opacity-0');
-  }  
+  }
 
   useEffect(() => {
     GetAddress(params.id)
@@ -90,7 +90,12 @@ export default function Block({ params }: { params: { id: string } }) {
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
             <h1 className="text-center lg:mt-0 mt-16 underline">ADDRESS</h1>
             <div>
-              <div className='flex justify-center mb-4'> <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
+              <div className='flex justify-center mb-4'>
+                <button className='text-blue-500 hover:text-blue-300 flex' onClick={() => copyAddress(params.id)}>
+                  <div className='break-all'>{params.id}</div>
+                  <CopyIcon />
+                </button>
+              </div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
               <div className='rounded-lg bg-base-300 p-2 mb-4'>
@@ -150,7 +155,7 @@ export default function Block({ params }: { params: { id: string } }) {
             </div>
             {txs?.map((tx: any, index: any) => (
               <div key={index} className='text-xs p-4 mb-6 rounded-lg bg-base-300 break-all'>
-                <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate'><div className='text-blue-500 mb-2 break-words truncate'>{tx.txid}</div></Link>
+                <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate flex'><div className='text-blue-500 mb-4 break-words truncate rounded hover:text-blue-300'>{tx.txid}</div><img src="/logo2.png" alt="tmp" className='h-4 ml-1' /></Link>
                 <div className='lg:flex justify-between'>
                   <div className='grid place-content-center'>
                     {tx?.vin.map((data: any, index: any) => (
@@ -198,7 +203,7 @@ export default function Block({ params }: { params: { id: string } }) {
               </div>
             ))}
           </div>
-        }       
+        }
       </div>
       <Footer />
       <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">

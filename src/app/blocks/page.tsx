@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as dateFns from "date-fns"
 
-import { Navbar, Footer } from "../../components"
+import { Navbar, Footer, CopyIcon } from "../../components"
 
 export default function Block() {
   const [data, setData] = useState<any>()

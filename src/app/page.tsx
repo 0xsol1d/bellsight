@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import React from 'react';
 import Link from "next/link";
 
-import { Navbar, Footer } from "../components"
+import { Navbar, Footer, CopyIcon } from "../components"
 
 export default function Home() {
   const [dataCG, setDataCG] = useState<any>()
