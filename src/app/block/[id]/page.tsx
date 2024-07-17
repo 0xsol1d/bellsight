@@ -92,7 +92,7 @@ export default function Block({ params }: { params: { id: any } }) {
       <Navbar />
       {data && height && txs &&
         <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-4">
-          <h1 className="text-center lg:mt-0 mt-16">BLOCK</h1>
+          <h1 className="text-center lg:mt-0 mt-16 underline">BLOCK</h1>
           <div>
             <div className='flex justify-center mb-4'>
               {method == "id" &&

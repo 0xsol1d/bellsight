@@ -63,7 +63,7 @@ export default function Tx({ params }: { params: { id: string } }) {
       <div className=''>
         {data && height &&
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
-            <h1 className="text-center lg:mt-0 mt-16">TX</h1>
+            <h1 className="text-center lg:mt-0 mt-16 underline">TX</h1>
             <div>
               <div className='flex justify-center mb-4'>
                 <button className='text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button>
@@ -128,16 +128,16 @@ export default function Tx({ params }: { params: { id: string } }) {
 
               </div>
             </div>
-            <div className='text-xs p-4 mb-6 rounded-lg bg-base-300'>
+            <div className='text-xs p-4 mb-12 rounded-lg bg-base-300'>
               <div className='lg:flex justify-between'>
                 <div className='grid place-content-center'>
                   {data?.vin.map((data: any, index: any) => (
                     <>
                       {data.prevout != null &&
                         <Link key={index} passHref href={`/tx/${data.txid}`}>
-                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
-                            <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
-                            <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full break-all">
+                            <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
+                            <div className="col-span-1 text-right  place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                           </div>
                         </Link>
                       }

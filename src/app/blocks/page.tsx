@@ -82,7 +82,7 @@ export default function Block() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16">LATEST BLOCKS</h1>
+          <h1 className="text-center lg:mt-0 mt-16 underline">LATEST BLOCKS</h1>
           <div className="grid grid-cols-6 mt-6 mx-4 bg-base-300 rounded-lg">
             <div className="col-span-1 text-center border-2 rounded-tl-lg truncate">HEIGHT</div>
             <div className="col-span-3 text-center border-2 truncate">ID</div>

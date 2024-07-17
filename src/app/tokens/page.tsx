@@ -53,7 +53,7 @@ export default function Block() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16">TOKENS</h1>
+          <h1 className="text-center lg:mt-0 mt-16 underline">TOKENS</h1>
           <div className="grid grid-cols-7 mt-6 mx-4">
             <div className="col-span-1 text-center border-2 rounded-tl-lg truncate">TICKER</div>
             <div className="col-span-3 text-center border-2 truncate">GENESIS</div>

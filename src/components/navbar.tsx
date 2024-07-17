@@ -39,7 +39,7 @@ export const Navbar = () => {
             <div className="flex">
                 <div className="dropdown">
                     <div tabIndex={0} className="btn btn-ghost rounded-lg btn-sm lg:btn-md"><img src="/menu.png" alt="" className="h-8" /></div>
-                    <ul tabIndex={0} className="mt-1 text-md shadow menu dropdown-content bg-base-200 rounded border border-gray-500 w-[10rem]">
+                    <ul tabIndex={0} className="mt-1 text-lg shadow menu dropdown-content bg-base-200 rounded border border-gray-500 w-[10rem]">
                         <Link passHref href={`/`} className="hover:bg-gray-800 rounded p-1">OVERVIEW</Link>
                         <Link passHref href={`/blocks`} className="hover:bg-gray-800 rounded p-1">LATEST BLOCKS</Link>
                         <Link passHref href={`/holders`} className="hover:bg-gray-800 rounded p-1">TOP HOLDERS</Link>

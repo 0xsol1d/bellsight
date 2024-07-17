@@ -9,7 +9,7 @@ export const Footer = () => {
     const router = useRouter()
     return (
         <div className="fixed bottom-0 left-0 right-0 bg-base-300 p-2 flex justify-between">
-            <div className="lg:text-lg text-xs">V0.1.1 - powered by NINTONDO.IO</div>
+            <div className="lg:text-lg text-xs">V0.1.2 - powered by NINTONDO.IO</div>
             <div className="flex space-x-3">
                 <a href="https://github.com/0xsol1id/bellsight" target="_blank" className="mr-4"><img src="/github.png" className="h-8" /></a>
                 <a href="https://bellscoin.com" target="_blank"><img src="/home.png" className="h-8" /></a>

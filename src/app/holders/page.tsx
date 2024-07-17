@@ -52,7 +52,7 @@ export default function Block() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16">TOP 100 HOLDERS</h1>
+          <h1 className="text-center lg:mt-0 mt-16 underline">TOP 100 HOLDERS</h1>
           <div className="grid grid-cols-4 mt-6 mx-4 bg-base-300 rounded-lg">
             <div className="col-span-1 text-center border-2 rounded-tl-lg">No</div>
             <div className="col-span-2 text-center border-2">ADDRESS</div>

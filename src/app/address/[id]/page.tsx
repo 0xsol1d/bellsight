@@ -88,7 +88,7 @@ export default function Block({ params }: { params: { id: string } }) {
       <div className=''>
         {data && txs &&
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
-            <h1 className="text-center lg:mt-0 mt-16">ADDRESS</h1>
+            <h1 className="text-center lg:mt-0 mt-16 underline">ADDRESS</h1>
             <div>
               <div className='flex justify-center mb-4'> <button className='hover:text-blue-500 truncate' onClick={() => copyAddress(params.id)}>{params.id}</button></div>
               <div className='grid grid-cols-2 border-b-2 mb-4'></div>
@@ -149,16 +149,16 @@ export default function Block({ params }: { params: { id: string } }) {
               </div>
             </div>
             {txs?.map((tx: any, index: any) => (
-              <div key={index} className='text-xs p-4 mb-6 rounded-lg bg-base-300'>
-                <Link key={index} passHref href={`/tx/${tx.txid}`}><div className='text-blue-500 mb-2'>{tx.txid}</div></Link>
+              <div key={index} className='text-xs p-4 mb-6 rounded-lg bg-base-300 break-all'>
+                <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate'><div className='text-blue-500 mb-2 break-words truncate'>{tx.txid}</div></Link>
                 <div className='lg:flex justify-between'>
                   <div className='grid place-content-center'>
                     {tx?.vin.map((data: any, index: any) => (
                       <>
                         {data.prevout != null &&
                           <Link key={index} passHref href={`/tx/${tx.txid}`}>
-                            <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
-                              <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
+                            <div className="lg:grid lg:grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full">
+                              <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
                               <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                             </div>
                           </Link>
@@ -186,7 +186,7 @@ export default function Block({ params }: { params: { id: string } }) {
                           }
                           {tx.scriptpubkey_type != "op_return" &&
                             <>
-                              <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500'>{tx.scriptpubkey_address}</div></div>
+                              <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500 truncate'>{tx.scriptpubkey_address}</div></div>
                               <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
                             </>
                           }
