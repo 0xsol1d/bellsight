@@ -21,6 +21,28 @@ export default function Home() {
     GetHeight()
   }, []);
 
+  const fetchBlocks = async (height?: number) => {
+    const url = height ? `https://api.nintondo.io/api/blocks/${height}` : 'https://api.nintondo.io/api/blocks';
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  };
+
+  const GetBlocksForAverageTime = async () => {
+    let blocksForAverageTime: any[] = [];
+    let result = await fetchBlocks();
+  
+    blocksForAverageTime.push(...result);
+  
+    for (let i = 0; i < 9; i++) {
+      const lastHeight = result[result.length - 1].height - 1;
+      result = await fetchBlocks(lastHeight);
+      blocksForAverageTime.push(...result);
+    }
+  
+    GetAverageBlockTime(blocksForAverageTime);
+  };
+
   const compareTimestamps = (timestamp1: number, timestamp2: number): number => {
     const differenceInSeconds = Math.abs(timestamp2 - timestamp1)
     const differenceInMinutes = Math.floor(differenceInSeconds / 60)
@@ -47,28 +69,6 @@ export default function Home() {
         setTxs(result)
       })
   }
-
-  const fetchBlocks = async (height?: number) => {
-    const url = height ? `https://api.nintondo.io/api/blocks/${height}` : 'https://api.nintondo.io/api/blocks';
-    const response = await fetch(url);
-    const result = await response.json();
-    return result;
-  };
-
-  const GetBlocksForAverageTime = async () => {
-    let blocksForAverageTime: any[] = [];
-    let result = await fetchBlocks();
-  
-    blocksForAverageTime.push(...result);
-  
-    for (let i = 0; i < 9; i++) {
-      const lastHeight = result[result.length - 1].height - 1;
-      result = await fetchBlocks(lastHeight);
-      blocksForAverageTime.push(...result);
-    }
-  
-    GetAverageBlockTime(blocksForAverageTime);
-  };
 
   const GetBlocks = async () => {
     await fetch('https://api.nintondo.io/api/blocks')

@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon, Decimal } from "../../../components"
+import { Navbar, Footer, CopyIcon, Decimal, AlertComponent } from "../../../components"
 
 export default function Block({ params }: { params: { id: string } }) {
+  const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
   const [data, setData] = useState<any>()
   const [txs, setTxs] = useState<any>()
-  const [message, setMessage] = useState<any>("")
   const [isAtBottom, setIsAtBottom] = useState(false);
 
   const GetAddress = async (addr: any) => {
@@ -21,7 +21,6 @@ export default function Block({ params }: { params: { id: string } }) {
           await fetch('https://api.nintondo.io/api/address/' + addr + '/txs')
             .then((res) => res.json())
             .then(async (result) => {
-              console.log(result[result.length - 1].txid)
               setTxs(result)
             })
         else            
@@ -41,39 +40,22 @@ export default function Block({ params }: { params: { id: string } }) {
 
   const copyAddress = async (val: any) => {
     await navigator.clipboard.writeText(val);
-    showAlert("Copied address!")
+    handleAlert("Copied address")
   }
 
-  function showAlert(msg: string) {
-    setMessage(msg)
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-0');
-    alert?.classList.add('opacity-100');
-
-    // Alert nach 3 Sekunden wieder ausblenden
-    setTimeout(() => {
-      closeAlert();
-    }, 3000);
-  }
-
-  function closeAlert() {
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-100');
-    alert?.classList.add('opacity-0');
-  }
+  const handleAlert = (message: string) => {
+    alertRef.current?.showAlert(message);
+  };
 
   useEffect(() => {
     GetAddress(params.id)
+
     const handleScroll = () => {
       const position = window.scrollY;
       const isBottom = window.innerHeight + position >= document.documentElement.scrollHeight - 200;
       setIsAtBottom(isBottom);
     };
-
-    // Scroll-Event-Listener hinzufügen
     window.addEventListener('scroll', handleScroll);
-
-    // Aufräumen des Event-Listeners beim Unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -213,12 +195,7 @@ export default function Block({ params }: { params: { id: string } }) {
         }
       </div>
       <Footer />
-      <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
-        <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">
-          <span>{message}</span>
-          <button onClick={() => closeAlert()} className="ml-auto btn btn-sm btn-circle btn-ghost">✕</button>
-        </div>
-      </div>
+      <AlertComponent ref={alertRef} />
     </div>
   )
 }

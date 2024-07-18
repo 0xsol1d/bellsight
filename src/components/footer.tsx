@@ -1,14 +1,20 @@
 
-import { useEffect, useState } from "react";
-import React from 'react';
-import Link from "next/link";
+import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation'
+
+import { AlertComponent } from "../components"
 
 export const Footer = () => {
 
-    const copyAddress = async (val: any) => {
+    const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
+    const handleAlert = (message: string) => {
+        alertRef.current?.showAlert(message);
+      };
+    
+      const copyAddress = async (val: any) => {
         await navigator.clipboard.writeText(val);
-    }
+        handleAlert("Copied donate address")
+      }
 
     const router = useRouter()
     return (
@@ -19,7 +25,7 @@ export const Footer = () => {
                 </button>
             </div>
             <div className="flex justify-between">
-                <div className="lg:text-lg text-xs">V0.1.4 - powered by NINTONDO.IO</div>
+                <div className="lg:text-lg text-xs">V0.1.5 - powered by NINTONDO.IO</div>
                 <div className="flex space-x-3">
                     <a href="https://github.com/0xsol1id/bellsight" target="_blank" className="mr-4"><img src="/github.png" className="h-8" /></a>
                     <a href="https://bellscoin.com" target="_blank"><img src="/home.png" className="h-8" /></a>
@@ -28,6 +34,7 @@ export const Footer = () => {
                     <a href="https://bitcointalk.org/index.php?topic=349695.0" target="_blank"><img src="/btc_logo.png" className="h-8" /></a>
                 </div>
             </div>
+            <AlertComponent ref={alertRef} />
         </div>
     )
 }

@@ -3,12 +3,12 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon, Decimal } from "../../../components"
+import { Navbar, Footer, CopyIcon, Decimal, AlertComponent } from "../../../components"
 
 export default function Tx({ params }: { params: { id: string } }) {
+  const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
   const [data, setData] = useState<any>()
   const [height, setHeight] = useState<any>()
-  const [message, setMessage] = useState<any>("")
 
   const GetHeight = async () => {
     await fetch('https://api.nintondo.io/api/blocks/tip/height')
@@ -29,25 +29,17 @@ export default function Tx({ params }: { params: { id: string } }) {
 
   const copyAddress = async (val: any) => {
     await navigator.clipboard.writeText(val);
-    showAlert("Copied tx id!")
+    handleAlert("Copied tx id")
   }
-
-  function showAlert(msg: string) {
-    setMessage(msg)
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-0');
-    alert?.classList.add('opacity-100');
-
-    // Alert nach 3 Sekunden wieder ausblenden
-    setTimeout(() => {
-      closeAlert();
-    }, 3000);
-  }
+  
+  const handleAlert = (message: string) => {
+    alertRef.current?.showAlert(message);
+  };
 
   function closeAlert() {
     const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-100');
-    alert?.classList.add('opacity-0');
+    alert?.classList.remove('opacity-100 w-40');
+    alert?.classList.add('opacity-0 w-0');
   }
 
   useEffect(() => {
@@ -181,12 +173,7 @@ export default function Tx({ params }: { params: { id: string } }) {
         }
       </div>
       <Footer />
-      <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
-        <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">
-          <span>{message}</span>
-          <button onClick={() => closeAlert()} className="ml-auto btn btn-sm btn-circle btn-ghost">✕</button>
-        </div>
-      </div>
+      <AlertComponent ref={alertRef} />
     </div>
   )
 }
