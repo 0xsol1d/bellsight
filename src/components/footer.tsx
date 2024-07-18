@@ -19,7 +19,7 @@ export const Footer = () => {
                 </button>
             </div>
             <div className="flex justify-between">
-                <div className="lg:text-lg text-xs">V0.1.3 - powered by NINTONDO.IO</div>
+                <div className="lg:text-lg text-xs">V0.1.4 - powered by NINTONDO.IO</div>
                 <div className="flex space-x-3">
                     <a href="https://github.com/0xsol1id/bellsight" target="_blank" className="mr-4"><img src="/github.png" className="h-8" /></a>
                     <a href="https://bellscoin.com" target="_blank"><img src="/home.png" className="h-8" /></a>
