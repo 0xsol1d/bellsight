@@ -116,19 +116,17 @@ export default function Home() {
         <div className="grid grid-flow-row auto-rows-max">
           <div className="flex justify-center mt-20 lg:mt-2">
             <div className="lg:flex justify-between place-content-center text-xs lg:text-sm bg-base-200 rounded-lg">
-              <div className="flex justify-between">
+              <div className="lg:flex grid grid-cols-2 justify-between">
                 <div className="text-center p-4"><div>MARKETCAP</div><div>{(Math.round((dataN.circulating_supply / 100000000) * dataCG.market_data.current_price.usd)).toLocaleString(undefined, { minimumFractionDigits: 0 })}$</div></div>
                 <div className="text-center p-4"><div>PRICE</div><div>{dataCG.market_data.current_price.usd}$</div></div>
-              </div>
-              <div className="flex justify-between">
                 {dataN.difficulty != null &&
                   <>
                     <div className="text-center rounded-l-xl p-4"><div>SUPPLY</div><div>{(dataN.circulating_supply / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0 })}</div></div>
                     <div className="text-center  p-4"><div>BLOCK HEIGHT</div><div>{height}</div></div>
                     <div className="text-center p-4"><div>DIFFICULTY</div><div>{(dataN.difficulty).toFixed(0)}</div></div>
-                    <div className="text-center p-4"><div>AVERAGE BLOCKTIME</div><div>{averageBlockTime}&nbsp;min</div></div>
                   </>
                 }
+                    <div className="text-center p-4"><div>AVERAGE BLOCKTIME</div><div>{averageBlockTime}&nbsp;min</div></div>
 
                 {dataN.difficulty == null &&
                   <div className="text-center rounded-l-xl p-4">Error fetching data</div>
