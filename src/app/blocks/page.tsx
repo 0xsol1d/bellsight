@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as dateFns from "date-fns"
 
-import { Navbar, Footer, CopyIcon } from "../../components"
+import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
 
 export default function Block() {
   const [data, setData] = useState<any>()
@@ -18,6 +18,9 @@ export default function Block() {
         await fetch('https://api.nintondo.io/api/blocks/' + (result[result.length - 1].height - 1))
           .then((res) => res.json())
           .then(async (result) => {
+            result.forEach((element: any) => {
+              setData((state: any) => [...state, element])
+            });
             await fetch('https://api.nintondo.io/api/blocks/' + (result[result.length - 1].height - 1))
               .then((res) => res.json())
               .then((result) => {

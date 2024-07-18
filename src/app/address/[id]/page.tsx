@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon } from "../../../components"
+import { Navbar, Footer, CopyIcon, Decimal } from "../../../components"
 
 export default function Block({ params }: { params: { id: string } }) {
   const [data, setData] = useState<any>()
@@ -17,12 +17,15 @@ export default function Block({ params }: { params: { id: string } }) {
       .then((res) => res.json())
       .then(async (result) => {
         setData(result)
-        await fetch('https://api.nintondo.io/api/address/' + addr + '/txs')
-          .then((res) => res.json())
-          .then(async (result) => {
-            console.log(result[result.length - 1].txid)
-            setTxs(result)
-          })
+        if (result.chain_stats.funded_txo_count > 0)
+          await fetch('https://api.nintondo.io/api/address/' + addr + '/txs')
+            .then((res) => res.json())
+            .then(async (result) => {
+              console.log(result[result.length - 1].txid)
+              setTxs(result)
+            })
+        else            
+          setTxs([])
       })
   }
 
@@ -119,22 +122,22 @@ export default function Block({ params }: { params: { id: string } }) {
 
                 <div className='grid grid-cols-2 mb-4'>
                   <div>Confirmed Balance:</div>
-                  <div className='text-right'>{((data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                  <div className='text-right flex justify-end'><Decimal number={(data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum) / 100000000} dec={8}/>&nbsp;$BEL</div>
                 </div>
                 <div className='grid grid-cols-2'>
                   <div>Confirmed recieved:</div>
-                  <div className='text-right'>{(data.chain_stats.funded_txo_sum / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                  <div className='text-right flex justify-end'><Decimal number={data.chain_stats.funded_txo_sum / 100000000} dec={8}/>&nbsp;$BEL</div>
                 </div>
                 <div className='grid grid-cols-2 mb-4'>
                   <div>Confirmed spend:</div>
-                  <div className='text-right'>{(data.chain_stats.spent_txo_sum / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                  <div className='text-right flex justify-end'><Decimal number={data.chain_stats.spent_txo_sum / 100000000} dec={8}/>&nbsp;$BEL</div>
                 </div>
                 <div className='grid grid-cols-2 border-b-2 mb-4'></div>
 
                 {data.mempool_stats.funded_txo_sum != 0 &&
                   <div className='grid grid-cols-2 mb-4'>
                     <div>Unconfirmed Balance:</div>
-                    <div className='text-right'>{((data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum + data.mempool_stats.funded_txo_sum - data.mempool_stats.spent_txo_sum) / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                    <div className='text-right flex justify-end'><Decimal number={(data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum + data.mempool_stats.funded_txo_sum - data.mempool_stats.spent_txo_sum) / 100000000} dec={8}/>&nbsp;$BEL</div>
                   </div>
                 }
                 {data.mempool_stats.funded_txo_sum == 0 &&
@@ -145,63 +148,67 @@ export default function Block({ params }: { params: { id: string } }) {
                 }
                 <div className='grid grid-cols-2'>
                   <div>Unconfirmed recieved:</div>
-                  <div className='text-right'>{(data.mempool_stats.funded_txo_sum / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                  <div className='text-right flex justify-end'><Decimal number={data.mempool_stats.funded_txo_sum / 100000000} dec={8}/>&nbsp;$BEL</div>
                 </div>
                 <div className='grid grid-cols-2'>
                   <div>Unconfirmed spend:</div>
-                  <div className='text-right'>{(data.mempool_stats.spent_txo_sum / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                  <div className='text-right flex justify-end'><Decimal number={data.mempool_stats.spent_txo_sum / 100000000} dec={8}/>&nbsp;$BEL</div>
                 </div>
               </div>
             </div>
-            {txs?.map((tx: any, index: any) => (
-              <div key={index} className='text-xs p-4 mb-16 rounded-lg bg-base-300 break-all'>
-                <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate flex'><div className='text-blue-500 mb-4 break-words truncate rounded hover:text-blue-300'>{tx.txid}</div><img src="/logo2.png" alt="tmp" className='h-4 ml-1' /></Link>
-                <div className='lg:flex justify-between'>
-                  <div className='grid place-content-center'>
-                    {tx?.vin.map((data: any, index: any) => (
-                      <>
-                        {data.prevout != null &&
-                          <Link key={index} passHref href={`/tx/${tx.txid}`}>
-                            <div className="lg:grid lg:grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
-                              <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
-                              <div className="col-span-1 text-right truncate place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+            {data.chain_stats.tx_count > 0 &&
+              <>
+                {txs?.map((tx: any, index: any) => (
+                  <div key={index} className='text-xs p-4 mb-16 rounded-lg bg-base-300 break-all'>
+                    <Link key={index} passHref href={`/tx/${tx.txid}`} className='truncate flex'><div className='text-blue-500 mb-4 break-words truncate rounded hover:text-blue-300'>{tx.txid}</div><img src="/logo2.png" alt="tmp" className='h-4 ml-1' /></Link>
+                    <div className='lg:flex justify-between'>
+                      <div className='grid place-content-center'>
+                        {tx?.vin.map((data: any, index: any) => (
+                          <>
+                            {data.prevout != null &&
+                              <Link key={index} passHref href={`/tx/${tx.txid}`}>
+                                <div className="lg:grid lg:grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
+                                  <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
+                                  <div className="col-span-1 text-right place-content-center flex justify-end"><Decimal number={data.prevout.value / 100000000} dec={8}/>&nbsp;$BEL</div>
+                                </div>
+                              </Link>
+                            }
+                            {data.prevout == null &&
+                              <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg p-4 w-full">
+                                <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
+                              </div>
+                            }
+                          </>
+                        ))}
+                      </div>
+                      <br className='block lg:hidden' />
+                      <div className='lg:grid place-content-center text-3xl hidden'>🠺</div>
+                      <div className='grid place-content-center text-3xl lg:hidden'>🠻</div>
+                      <br className='block lg:hidden' />
+                      <div className='grid place-content-center'>
+                        {tx?.vout.map((tx: any, index: any) => (
+                          <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
+                            <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 mb-1">
+                              {tx.scriptpubkey_type == "op_return" &&
+                                <>
+                                  <div className="col-span-3 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left'>OP_RETURN</div></div>
+                                </>
+                              }
+                              {tx.scriptpubkey_type != "op_return" &&
+                                <>
+                                  <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500 truncate'>{tx.scriptpubkey_address}</div></div>
+                                  <div className="col-span-1 text-right place-content-center flex justify-end"><Decimal number={tx.value / 100000000} dec={8}/>&nbsp;$BEL</div>
+                                </>
+                              }
                             </div>
                           </Link>
-                        }
-                        {data.prevout == null &&
-                          <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg p-4 w-full">
-                            <div className="col-span-2 place-content-center truncate gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-right'>COINBASE</div></div>
-                          </div>
-                        }
-                      </>
-                    ))}
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <br className='block lg:hidden' />
-                  <div className='lg:grid place-content-center text-3xl hidden'>🠺</div>
-                  <div className='grid place-content-center text-3xl lg:hidden'>🠻</div>
-                  <br className='block lg:hidden' />
-                  <div className='grid place-content-center'>
-                    {tx?.vout.map((tx: any, index: any) => (
-                      <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
-                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 mb-1">
-                          {tx.scriptpubkey_type == "op_return" &&
-                            <>
-                              <div className="col-span-3 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left'>OP_RETURN</div></div>
-                            </>
-                          }
-                          {tx.scriptpubkey_type != "op_return" &&
-                            <>
-                              <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500 truncate'>{tx.scriptpubkey_address}</div></div>
-                              <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
-                            </>
-                          }
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+                ))}
+              </>
+            }
           </div>
         }
       </div>

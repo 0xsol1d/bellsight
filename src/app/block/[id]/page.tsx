@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as dateFns from "date-fns"
 
-import { Navbar, Footer, CopyIcon } from "../../../components"
+import { Navbar, Footer, CopyIcon, Decimal } from "../../../components"
 
 export default function Block({ params }: { params: { id: any } }) {
   const [data, setData] = useState<any>()
@@ -181,7 +181,7 @@ export default function Block({ params }: { params: { id: any } }) {
                       <Link key={index} passHref href={`/tx/${tx.txid}`} className=''>
                         <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
                           <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
-                          <div className="col-span-1 text-right place-content-center">{(data.prevout.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                          <div className="col-span-1 text-right place-content-center flex justify-end"><Decimal number={data.prevout.value / 100000000} dec={8}/>&nbsp;$BEL</div>
                         </div>
                       </Link>
                     }
@@ -209,7 +209,7 @@ export default function Block({ params }: { params: { id: any } }) {
                       {tx.scriptpubkey_type != "op_return" &&
                         <>
                           <div className="col-span-2 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left text-blue-500'>{tx.scriptpubkey_address}</div></div>
-                          <div className="col-span-1 text-right truncate place-content-center">{(tx.value / 100000000).toLocaleString(undefined, { minimumFractionDigits: 8 })} $BEL</div>
+                          <div className="col-span-1 text-right place-content-center flex justify-end"><Decimal number={tx.value / 100000000} dec={8}/>&nbsp;$BEL</div>
                         </>
                       }
                     </div>

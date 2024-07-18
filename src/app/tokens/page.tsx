@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon } from "../../components"
+import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
 
 export default function Block() {
   const [data, setData] = useState<any>()
