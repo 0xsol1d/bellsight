@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
 
-export default function Block() {
+export default function Tokens() {
   const [data, setData] = useState<any>()
   const [message, setMessage] = useState<any>("")
 

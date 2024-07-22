@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
 
-export default function Block() {
+export default function Holders() {
   const [data, setData] = useState<any>()
   const [message, setMessage] = useState<any>("")
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { Navbar, Footer, CopyIcon, Decimal, AlertComponent } from "../../../components"
 
-export default function Block({ params }: { params: { id: string } }) {
+export default function Address({ params }: { params: { id: string } }) {
   const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
   const [data, setData] = useState<any>()
   const [txs, setTxs] = useState<any>()

@@ -6,7 +6,7 @@ import * as dateFns from "date-fns"
 
 import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
 
-export default function Block() {
+export default function Blocks() {
   const [data, setData] = useState<any>()
   const [message, setMessage] = useState<any>("")
 
@@ -40,29 +40,6 @@ export default function Block() {
           setData((state: any) => [...state, element])
         });
       })
-  }
-
-  const copyAddress = async (val: any) => {
-    await navigator.clipboard.writeText(val);
-    showAlert("Copied block id!")
-  }
-
-  function showAlert(msg: string) {
-    setMessage(msg)
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-0');
-    alert?.classList.add('opacity-100');
-
-    // Alert nach 3 Sekunden wieder ausblenden
-    setTimeout(() => {
-      closeAlert();
-    }, 3000);
-  }
-
-  function closeAlert() {
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-100');
-    alert?.classList.add('opacity-0');
   }
 
   const handleScroll = (e: any) => {
