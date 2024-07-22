@@ -238,10 +238,10 @@ export default function Stats() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="grid grid-flow-row auto-rows-max">
+      <div className="grid">
         <h1 className="text-center lg:mt-0 mt-16 underline">STATS</h1>
-        <div className="lg:grid grid-cols-2 p-6">
-          <div className="mb-12 lg:mb-0 flex justify-center items-center">
+        <div className="lg:grid grid-cols-2 p-6 lg:h-[53rem] overflow-auto">
+          <div className="mb-12 lg:mt-0 flex justify-center items-center max-h-[20rem]">
             {averageBlockTimesFast.length > 0 ? (
               <>
                 <Bar data={dataFast} options={optionsABTF} />
@@ -250,21 +250,21 @@ export default function Stats() {
               <Loader />
             )}
           </div>
-          <div className="mb-12 lg:mb-0 flex justify-center items-center">
+          <div className="mb-12 lg:mt-0 flex justify-center items-center max-h-[20rem]">
             {averageBlockTimes.length > 0 ? (
               <Bar data={data} options={optionsABT} />
             ) : (
               <Loader />
             )}
           </div>
-          <div className="mb-12 lg:mb-0 flex justify-center items-center">
+          <div className="mb-12 lg:mt-0 flex justify-center items-center max-h-[20rem]">
             {txCount.length > 0 ? (
               <Bar data={dataTxCount} options={optionsTx} />
             ) : (
               <Loader />
             )}
           </div>
-          <div className="mb-12 lg:mb-0 flex justify-center items-center">
+          <div className="mb-12 lg:mt-0 flex justify-center items-center max-h-[20rem]">
             {accumulatedTxCount.length > 0 ? (
               <Bar data={dataAccumulatedTxCount} options={optionsABT} />
             ) : (
