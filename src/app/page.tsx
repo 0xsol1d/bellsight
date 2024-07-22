@@ -127,7 +127,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
 
-      {dataCoingecko && dataNintondo && dataNonkyc && height && (
+      {dataCoingecko && dataNintondo && dataNonkyc && height ? (
         <div className="grid grid-flow-row auto-rows-max">
           <div className="flex justify-center mt-20 lg:mt-2">
             <div className="lg:flex justify-between place-content-center text-xs lg:text-sm bg-base-200 rounded-lg">
@@ -181,7 +181,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           <div className="grid lg:grid-cols-2 gap-4 p-4 mb-12 break-all">
             <div className="bg-base-200 rounded-lg">
               <h1 className="text-center place-content-center">RECENT TXs</h1>
@@ -218,7 +218,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
+      ):(<Loader/>)}      
       <Footer />
     </div>
   );
