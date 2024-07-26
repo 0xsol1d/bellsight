@@ -62,7 +62,7 @@ export default function Tokens() {
           </div>
           <div className="h-[30rem] lg:h-[45rem] overflow-auto mx-4">
             {data?.map((element: any, index: any) => (
-              <div key={index} className="grid grid-cols-7 border-b-2 border-l-2 border-r-2 hover:bg-gray-900 p-2">
+              <div key={index} className="grid grid-cols-7 border-b-2 border-l-2 border-r-2 hover:bg-base-100 p-2">
                 <div className="col-span-1 text-center place-content-center">{element.tick}</div>
                 <div className="col-span-3 text-center truncate place-content-center">{element.genesis}</div>
                 <div className="col-span-2 text-center truncate place-content-center">{element.supply.toLocaleString(undefined, { minimumFractionDigits: 2 })} / {element.max.toLocaleString(undefined, { minimumFractionDigits: 0 })}</div>

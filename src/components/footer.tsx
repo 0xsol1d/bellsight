@@ -27,7 +27,7 @@ export const Footer = () => {
         </a>
         <a href="https://nintondo.io" target="_blank">
           <div className="lg:text-lg text-xs text-center flex items-center hover:text-blue-500">
-            V0.1.7 - powered by <img src="/nintondo.png" className="lg:h-8 h-6" />
+            V0.1.9 - powered by <img src="/nintondo.png" className="lg:h-8 h-6" />
             INTONDO.IO
           </div>
         </a>

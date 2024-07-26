@@ -6,7 +6,7 @@ This is an open source project of a blockchain explorer for BELLSCOIN that uses 
 You can view:
 - top 100 holder addresses
 - the last blocks in chronological order
-- brc-20 token overview
+- bel-20 token overview
 - chain stats (see below)
 
 You can search for:

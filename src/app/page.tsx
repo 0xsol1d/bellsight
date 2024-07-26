@@ -94,6 +94,7 @@ export default function Home() {
         setDataNintondo(result);
       });
   };
+  
   const GetCoingeckoData = async () => {
     await fetch("https://api.coingecko.com/api/v3/coins/bellscoin")
       .then((res) => res.json())
@@ -189,7 +190,7 @@ export default function Home() {
                 <Link key={index} passHref href={`/tx/${tx.txid}`}>
                   <div
                     key={index}
-                    className="lg:flex justify-between hover:bg-gray-900 p-2 w-full text-xs border-base-300 border-t-2"
+                    className="lg:flex justify-between hover:bg-base-300 p-2 w-full text-xs border-base-300 border-t-2"
                   >
                     <div className="text-blue-500">{tx.txid}</div>
                     <div className="text-right flex justify-end">
@@ -208,7 +209,7 @@ export default function Home() {
                 <Link key={index} passHref href={`/block/${block.id}`}>
                   <div
                     key={index}
-                    className="lg:flex justify-between hover:bg-gray-900 p-2 w-full text-xs border-base-300 border-t-2"
+                    className="lg:flex justify-between hover:bg-base-300 p-2 w-full text-xs border-base-300 border-t-2"
                   >
                     <div className="text-blue-500">{block.id}</div>
                     <div className="text-right">{block.height}</div>

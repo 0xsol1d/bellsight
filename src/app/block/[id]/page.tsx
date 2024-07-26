@@ -165,7 +165,7 @@ export default function Block({ params }: { params: { id: any } }) {
                   <>
                     {data.prevout != null &&
                       <Link key={index} passHref href={`/tx/${tx.txid}`} className=''>
-                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 w-full mb-1">
+                        <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-base-100 p-4 w-full mb-1">
                           <div className="col-span-2 place-content-center gap-4 flex justify-between"><div className=''>{index}#</div><div className='text-left text-blue-500'>{data.txid}</div></div>
                           <div className="col-span-1 text-right place-content-center flex justify-end"><Decimal number={data.prevout.value / 100000000} dec={8}/>&nbsp;$BEL</div>
                         </div>
@@ -186,7 +186,7 @@ export default function Block({ params }: { params: { id: any } }) {
               <div className='grid place-content-center'>
                 {tx?.vout.map((tx: any, index: any) => (
                   <Link key={index} passHref href={`/address/${tx.scriptpubkey_address}`}>
-                    <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-gray-900 p-4 mb-1">
+                    <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-base-100 p-4 mb-1">
                       {tx.scriptpubkey_type == "op_return" &&
                         <>
                           <div className="col-span-3 truncate gap-4 flex"><div className=''>{index}#</div><div className='text-left'>OP_RETURN</div></div>
