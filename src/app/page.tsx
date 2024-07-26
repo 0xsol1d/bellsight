@@ -3,7 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import React from "react";
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon, Decimal, TradingViewWidget, Loader } from "../components";
+import {
+  Navbar,
+  Footer,
+  CopyIcon,
+  Decimal,
+  TradingViewWidget,
+  Loader,
+} from "../components";
 
 export default function Home() {
   const [dataNonkyc, setDataNonkyc] = useState<any>();
@@ -34,7 +41,7 @@ export default function Home() {
       result = await fetchBlocks(lastHeight);
       blocksForAverageTime.push(...result);
     }
-    console.log(blocksForAverageTime)
+    console.log(blocksForAverageTime);
     GetAverageBlockTime(blocksForAverageTime);
   };
 
@@ -94,7 +101,7 @@ export default function Home() {
         setDataNintondo(result);
       });
   };
-  
+
   const GetCoingeckoData = async () => {
     await fetch("https://api.coingecko.com/api/v3/coins/bellscoin")
       .then((res) => res.json())
@@ -104,12 +111,10 @@ export default function Home() {
   };
 
   const GetNonkycData = async () => {
-    await fetch(
-      "https://api.nonkyc.io/api/v2/ticker/BEL_USDT"
-    )
+    await fetch("https://api.nonkyc.io/api/v2/ticker/BEL_USDT")
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
+        console.log(result);
         setDataNonkyc(result);
       });
   };
@@ -138,14 +143,16 @@ export default function Home() {
                   <div>
                     {Math.round(
                       (dataNintondo.circulating_supply / 100000000) *
-                      dataCoingecko.market_data.current_price.usd
+                        dataCoingecko.market_data.current_price.usd
                     ).toLocaleString(undefined, { minimumFractionDigits: 0 })}
                     $
                   </div>
                 </div>
                 <div className="text-center p-4">
                   <div>PRICE</div>
-                  <div>{dataCoingecko.market_data.current_price.usd.toFixed(4)}$</div>
+                  <div>
+                    {dataCoingecko.market_data.current_price.usd.toFixed(4)}$
+                  </div>
                 </div>
                 {dataNintondo.difficulty != null && (
                   <>
@@ -196,6 +203,12 @@ export default function Home() {
                     <div className="text-right flex justify-end">
                       <Decimal number={tx.value / 100000000} dec={8} />
                       &nbsp;$BEL
+                      {` (${(
+                        (tx.value / 100000000) *
+                        dataCoingecko.market_data.current_price.usd
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                      })}$)`}
                     </div>
                   </div>
                 </Link>
@@ -219,7 +232,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      ):(<Loader/>)}      
+      ) : (
+        <Loader />
+      )}
       <Footer />
     </div>
   );
