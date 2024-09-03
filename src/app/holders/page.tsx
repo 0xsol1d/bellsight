@@ -3,14 +3,15 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { Navbar, Footer, CopyIcon, Decimal, Loader } from "../../components";
+import { Navbar, CopyIcon, Decimal, Loader } from "../../components";
+import { SATS_PER_BELL, ESPLORA_API, BELLSIGHT_API } from "@/utils/consts";
 
 export default function Holders() {
   const [data, setData] = useState<any>();
   const [dataCoingecko, setDataCoingecko] = useState<any>();
 
   const GetTopHolders = async () => {
-    await fetch("https://api.nintondo.io/api/top-owners")
+    await fetch(ESPLORA_API + "top-owners")
       .then((res) => res.json())
       .then((result) => {
         setData(result);
@@ -36,7 +37,7 @@ export default function Holders() {
 
       {data && dataCoingecko ? (
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16 underline">
+          <h1 className="text-center lg:mt-0 mt-2 underline">
             TOP 100 HOLDERS
           </h1>
           <div className="grid grid-cols-4 mt-6 mx-4 bg-base-300 rounded-lg">
@@ -57,7 +58,12 @@ export default function Holders() {
                       {index + 1}
                     </div>
                     <div className="col-span-2 text-center truncate place-content-center">
-                      {element.address}
+                      {element.address == "B9fQC5x5r1t7voDL9B4Z5aNEmgNUxtFpFn"
+                        ? "NonKyc"
+                        : element.address ==
+                          "BFD7ZWjks3VVS2dRP3BZCrmTNd9vvKvAuo"
+                        ? "CoinEx"
+                        : element.address}
                     </div>
                     <div className="col-span-1 text-center place-content-center">
                       {(element.balance / 100000000).toLocaleString(undefined, {
@@ -85,7 +91,7 @@ export default function Holders() {
       ) : (
         <Loader />
       )}
-      <Footer />
+      
     </div>
   );
 }

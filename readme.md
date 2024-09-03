@@ -7,18 +7,29 @@ You can view:
 - top 100 holder addresses
 - the last blocks in chronological order
 - bel-20 token overview
-- chain stats (see below)
+- chain stats
+- SNS holdings per address
+- SNS minted per block
 
 You can search for:
 - block height
 - block hash
 - tx hash
-- address
-- (tokens will be implemented in the future)
+- address/domain
+- (tokens will be implemented in future updates)
 
-You can also see stats for:
+You can see stats for:
 - average block times
 - tx counts
+- (price charts will be implemented in future updates)
+
+You can use NINTONDO wallet tools:
+- TX splitter
+- Sending $BEL to addresses and domains
+- Inscribe domains and namespaces
+
+For more info visit
+https://docs.bellsight.xyz
  
 # Links
 
@@ -35,6 +46,6 @@ https://11pxl.com
 # You can buy me a coffee
 Donates in $BEL/BELLSCOIN to 
 
-BJTuNnftKyYZpFnwwQkSbWyskSo3mHr78L
+bel1qkjvuwe0tkauxu50ulfyc4e0k4ly3jyk3h32460
 
 THX

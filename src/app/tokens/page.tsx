@@ -3,44 +3,23 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
+import toast from 'react-hot-toast';
+import { toastStyles } from '../../utils/styles';
 
-import { Navbar, Footer, CopyIcon, Decimal } from "../../components"
+import { Navbar, CopyIcon, Decimal } from "../../components"
+import { SATS_PER_BELL, ESPLORA_API, BELLSIGHT_API } from "@/utils/consts";
 
 export default function Tokens() {
   const [data, setData] = useState<any>()
   const [message, setMessage] = useState<any>("")
 
   const GetAllTokens = async () => {
-    await fetch('https://api.nintondo.io/api/token/all')
+    await fetch(ESPLORA_API + "token/all")
       .then((res) => res.json())
       .then((result) => {
         setData(result)
       })
   }
-
-  const copyAddress = async (val: any) => {
-    await navigator.clipboard.writeText(val);
-    showAlert("Copied block id!")
-  }
-
-  function showAlert(msg: string) {
-    setMessage(msg)
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-0');
-    alert?.classList.add('opacity-100');
-
-    // Alert nach 3 Sekunden wieder ausblenden
-    setTimeout(() => {
-      closeAlert();
-    }, 3000);
-  }
-
-  function closeAlert() {
-    const alert = document.getElementById('alert');
-    alert?.classList.remove('opacity-100');
-    alert?.classList.add('opacity-0');
-  }
-
 
   useEffect(() => {
     GetAllTokens()
@@ -53,7 +32,7 @@ export default function Tokens() {
 
       {data &&
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16 underline">TOKENS</h1>
+          <h1 className="text-center lg:mt-0 mt-2 underline">TOKENS</h1>
           <div className="grid grid-cols-7 mt-6 mx-4">
             <div className="col-span-1 text-center border-2 rounded-tl-lg truncate">TICKER</div>
             <div className="col-span-3 text-center border-2 truncate">GENESIS</div>
@@ -72,13 +51,7 @@ export default function Tokens() {
           </div>
         </div>
       }
-      <Footer/>
-      <div className="flex justify-center fixed bottom-4 left-1/2 transform -translate-x-1/2">
-        <div id="alert" className="w-60 alert alert-info transition-opacity duration-1000 opacity-0">
-          <span>{message}</span>
-          <button onClick={() => closeAlert()} className="ml-auto btn btn-sm btn-circle btn-ghost">✕</button>
-        </div>
-      </div>
+      
     </div>
   )
 }

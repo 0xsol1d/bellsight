@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "belcoinjs-lib": "^0.1.2",
+    "bells-inscriber": "^0.2.1",
     "chart.js": "^4.4.3",
     "date-fns": "^3.6.0",
     "next": "14.2.3",
+    "nintondo-sdk": "^0.1.15",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
-    "react-modal": "^3.16.1"
+    "react-hot-toast": "^2.4.1",
+    "react-modal": "^3.16.1",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@types/node": "^20",

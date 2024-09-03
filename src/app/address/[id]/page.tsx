@@ -1,46 +1,59 @@
 "use client";
 import React from "react";
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { toastStyles } from "../../../utils/styles";
+import { ESPLORA_API, BELLSIGHT_API } from "@/utils/consts";
 
-import {
-  Navbar,
-  Footer,
-  CopyIcon,
-  Decimal,
-  AlertComponent,
-  Loader,
-} from "../../../components";
+import { Navbar, CopyIcon, Decimal, Loader } from "../../../components";
 
 export default function Address({ params }: { params: { id: string } }) {
-  const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
   const [data, setData] = useState<any>();
   const [dataCoingecko, setDataCoingecko] = useState<any>();
   const [txs, setTxs] = useState<any>();
   const [isAtBottom, setIsAtBottom] = useState(false);
 
+  const [error, setError] = useState<boolean>(false);
+
+  const [snsHoldings, setSnsHoldings] = useState<any>([]);
+
   const GetAddress = async (addr: any) => {
-    await fetch("https://api.nintondo.io/api/address/" + addr)
+    await fetch(ESPLORA_API + "address/" + addr)
+      .then((res) => {
+        const status = res.status;
+        return res.json().then((result) => {
+          return { status, result };
+        });
+      })
+      .then(async ({ status, result }) => {
+        if (status == 200) {
+          setData(result);
+          if (result.chain_stats.funded_txo_count > 0)
+            await fetch(ESPLORA_API + "address/" + addr + "/txs")
+              .then((res) => res.json())
+              .then(async (result) => {
+                setTxs(result);
+              });
+          else setTxs([]);
+        } else {
+          toast.error("Address not found", toastStyles);
+          setError(true);
+        }
+      });
+  };
+
+  const GetSNSForAddress = async (addr: any) => {
+    await fetch(BELLSIGHT_API + "holder/" + addr)
       .then((res) => res.json())
-      .then(async (result) => {
-        setData(result);
-        if (result.chain_stats.funded_txo_count > 0)
-          await fetch("https://api.nintondo.io/api/address/" + addr + "/txs")
-            .then((res) => res.json())
-            .then(async (result) => {
-              setTxs(result);
-            });
-        else setTxs([]);
+      .then((result) => {
+        if (result.length > 0) setSnsHoldings(result);
       });
   };
 
   const GetNextTxs = async (addr: any) => {
     await fetch(
-      "https://api.nintondo.io/api/address/" +
-        addr +
-        "/txs/chain/" +
-        txs[txs.length - 1].txid
+      ESPLORA_API + "address/" + addr + "/txs/chain/" + txs[txs.length - 1].txid
     )
       .then((res) => res.json())
       .then((result) => {
@@ -52,11 +65,7 @@ export default function Address({ params }: { params: { id: string } }) {
 
   const copyAddress = async (val: any) => {
     await navigator.clipboard.writeText(val);
-    handleAlert("Copied address");
-  };
-
-  const handleAlert = (message: string) => {
-    alertRef.current?.showAlert(message);
+    toast.success("Copied block address", toastStyles);
   };
 
   const GetCoingeckoData = async () => {
@@ -70,6 +79,7 @@ export default function Address({ params }: { params: { id: string } }) {
   useEffect(() => {
     GetAddress(params.id);
     GetCoingeckoData();
+    GetSNSForAddress(params.id);
 
     const handleScroll = () => {
       const position = window.scrollY;
@@ -94,9 +104,10 @@ export default function Address({ params }: { params: { id: string } }) {
       <div className="">
         {data && txs && dataCoingecko ? (
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
-            <h1 className="text-center lg:mt-0 mt-16 underline">ADDRESS</h1>
+            <h1 className="text-center lg:mt-0 mt-2 underline">ADDRESS</h1>
             <div>
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-between mb-4 items-center">
+                <div></div>
                 <button
                   className="text-blue-500 hover:text-blue-300 flex"
                   onClick={() => copyAddress(params.id)}
@@ -104,6 +115,25 @@ export default function Address({ params }: { params: { id: string } }) {
                   <div className="break-all">{params.id}</div>
                   <CopyIcon />
                 </button>
+                <div className="dropdown dropdown-hover dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-secondary m-1"
+                  >
+                    SNS Holdings
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="grid dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow overflow-y-auto h-40"
+                  >
+                    {snsHoldings.map((sns: any, index: any) => (
+                      <li key={index}>
+                        <a>{sns.domain}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
               <div className="grid grid-cols-2 mb-4 bg-base-300 p-2 rounded-lg">
                 <div>Balance:</div>
@@ -275,9 +305,9 @@ export default function Address({ params }: { params: { id: string } }) {
                       <img src="/logo2.png" alt="tmp" className="h-4 ml-1" />
                     </Link>
                     <div className="lg:flex justify-between">
-                      <div className="grid place-content-center">
+                      <div key={0} className="grid place-content-center">
                         {tx?.vin.map((data: any, index: any) => (
-                          <>
+                          <div key={index}>
                             {data.prevout != null && (
                               <Link
                                 key={index}
@@ -316,7 +346,7 @@ export default function Address({ params }: { params: { id: string } }) {
                                 </div>
                               </div>
                             )}
-                          </>
+                          </div>
                         ))}
                       </div>
                       <br className="block lg:hidden" />
@@ -377,12 +407,14 @@ export default function Address({ params }: { params: { id: string } }) {
               </>
             )}
           </div>
+        ) : error ? (
+          <div className="lg:mt-96 mt-40 flex flex-col justify-center items-center text-center">
+            Address not found
+          </div>
         ) : (
           <Loader />
         )}
       </div>
-      <Footer />
-      <AlertComponent ref={alertRef} />
     </div>
   );
 }

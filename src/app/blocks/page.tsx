@@ -3,19 +3,22 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import * as dateFns from "date-fns";
+import toast from 'react-hot-toast';
+import { toastStyles } from '../../utils/styles';
 
-import { Navbar, Footer, CopyIcon, Decimal } from "../../components";
+import { Navbar, CopyIcon, Decimal } from "../../components";
+import { SATS_PER_BELL, ESPLORA_API, BELLSIGHT_API } from "@/utils/consts";
 
 export default function Blocks() {
   const [data, setData] = useState<any>();
 
   const GetBlocks = async () => {
-    await fetch("https://api.nintondo.io/api/blocks")
+    await fetch(ESPLORA_API + "blocks")
       .then((res) => res.json())
       .then(async (result) => {
         setData(result);
         await fetch(
-          "https://api.nintondo.io/api/blocks/" +
+          ESPLORA_API + "blocks/" +
             (result[result.length - 1].height - 1)
         )
           .then((res) => res.json())
@@ -24,7 +27,7 @@ export default function Blocks() {
               setData((state: any) => [...state, element]);
             });
             await fetch(
-              "https://api.nintondo.io/api/blocks/" +
+              ESPLORA_API + "blocks/" +
                 (result[result.length - 1].height - 1)
             )
               .then((res) => res.json())
@@ -39,7 +42,7 @@ export default function Blocks() {
 
   const GetNextBlocks = async () => {
     await fetch(
-      "https://api.nintondo.io/api/blocks/" + (data[data.length - 1].height - 1)
+      ESPLORA_API + "blocks/" + (data[data.length - 1].height - 1)
     )
       .then((res) => res.json())
       .then((result) => {
@@ -69,7 +72,7 @@ export default function Blocks() {
 
       {data && (
         <div className="grid grid-flow-row auto-rows-max">
-          <h1 className="text-center lg:mt-0 mt-16 underline">LATEST BLOCKS</h1>
+          <h1 className="text-center lg:mt-0 mt-2 underline">LATEST BLOCKS</h1>
           <div className="grid grid-cols-6 mt-6 mx-4 bg-base-300 rounded-lg">
             <div className="col-span-1 text-center border-2 rounded-tl-lg truncate">
               HEIGHT
@@ -110,7 +113,7 @@ export default function Blocks() {
           </div>
         </div>
       )}
-      <Footer />
+      
     </div>
   );
 }

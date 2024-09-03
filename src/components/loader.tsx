@@ -6,7 +6,7 @@ type Props = {
 };
 export const Loader: FC<Props> = ({ text = "Loading...", noText = false }) => {
   return (
-    <div className="flex flex-col justify-center items-center text-xl font-light">
+    <div className="lg:mt-96 mt-40 flex flex-col justify-center items-center overflow-hidden">
       <svg
         className="animate-spin h-8 w-8 text-white"
         xmlns="http://www.w3.org/2000/svg"

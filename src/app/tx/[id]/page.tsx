@@ -1,22 +1,17 @@
 "use client";
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { use } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { toastStyles } from "../../../utils/styles";
 
-import {
-  Navbar,
-  Footer,
-  CopyIcon,
-  Decimal,
-  AlertComponent,
-  Loader,
-} from "../../../components";
+import { Navbar, CopyIcon, Decimal, Loader } from "../../../components";
 
 export default function Tx({ params }: { params: { id: string } }) {
-  const alertRef = useRef<{ showAlert: (msg: string) => void }>(null);
   const [data, setData] = useState<any>();
   const [dataCoingecko, setDataCoingecko] = useState<any>();
   const [height, setHeight] = useState<any>();
+  const [error, setError] = useState<boolean>(false);
 
   const GetHeight = async () => {
     await fetch("https://api.nintondo.io/api/blocks/tip/height")
@@ -30,8 +25,12 @@ export default function Tx({ params }: { params: { id: string } }) {
     await fetch("https://api.nintondo.io/api/tx/" + id)
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        setData(result);
+        if (result)
+          setData(result);
+        else {
+          toast.error("Tx not found", toastStyles);
+          setError(true);
+        }
       });
   };
 
@@ -45,11 +44,8 @@ export default function Tx({ params }: { params: { id: string } }) {
 
   const copyAddress = async (val: any) => {
     await navigator.clipboard.writeText(val);
-    handleAlert("Copied tx id");
-  };
 
-  const handleAlert = (message: string) => {
-    alertRef.current?.showAlert(message);
+    toast.success("Copied tx id", toastStyles);
   };
 
   useEffect(() => {
@@ -65,7 +61,7 @@ export default function Tx({ params }: { params: { id: string } }) {
       <div className="">
         {data && height && dataCoingecko ? (
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
-            <h1 className="text-center lg:mt-0 mt-16 underline">TX</h1>
+            <h1 className="text-center lg:mt-0 mt-2 underline">TX</h1>
             <div>
               <div className="flex justify-center mb-4">
                 <button
@@ -152,10 +148,20 @@ export default function Tx({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="text-xs p-4 mb-16 rounded-lg bg-base-300">
+              <Link
+                passHref
+                href={`/tx/${data.txid}`}
+                className="truncate flex"
+              >
+                <div className="text-blue-500 mb-4 break-words truncate rounded hover:text-blue-300">
+                  {data.txid}
+                </div>
+                <img src="/logo2.png" alt="tmp" className="h-4 ml-1" />
+              </Link>
               <div className="lg:flex justify-between">
                 <div className="grid place-content-center">
                   {data?.vin.map((data: any, index: any) => (
-                    <>
+                    <div key={index}>
                       {data.prevout != null && (
                         <Link key={index} passHref href={`/tx/${data.txid}`}>
                           <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg hover:bg-base-100 p-4 w-full break-all mb-1">
@@ -183,13 +189,13 @@ export default function Tx({ params }: { params: { id: string } }) {
                       )}
                       {data.prevout == null && (
                         <div className="lg:grid grid-cols-3 bg-base-200 rounded-lg p-4 w-full">
-                          <div className="col-span-2 place-content-center truncate gap-4 flex justify-between">
+                          <div className="col-span-1 place-content-center truncate gap-4 flex justify-between">
                             <div className="">{index}#</div>
                             <div className="text-right">COINBASE</div>
                           </div>
                         </div>
                       )}
-                    </>
+                    </div>
                   ))}
                 </div>
                 <br className="block lg:hidden" />
@@ -243,12 +249,14 @@ export default function Tx({ params }: { params: { id: string } }) {
               </div>
             </div>
           </div>
+        ) : error ? (
+          <div className="lg:mt-96 mt-40 flex flex-col justify-center items-center text-center">
+            TX not found
+          </div>
         ) : (
           <Loader />
         )}
       </div>
-      <Footer />
-      <AlertComponent ref={alertRef} />
     </div>
   );
 }

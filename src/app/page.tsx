@@ -2,10 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import Link from "next/link";
+import toast from 'react-hot-toast';
+import { toastStyles } from '../utils/styles';
 
 import {
   Navbar,
-  Footer,
   CopyIcon,
   Decimal,
   TradingViewWidget,
@@ -41,7 +42,6 @@ export default function Home() {
       result = await fetchBlocks(lastHeight);
       blocksForAverageTime.push(...result);
     }
-    console.log(blocksForAverageTime);
     GetAverageBlockTime(blocksForAverageTime);
   };
 
@@ -114,7 +114,6 @@ export default function Home() {
     await fetch("https://api.nonkyc.io/api/v2/ticker/BEL_USDT")
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setDataNonkyc(result);
       });
   };
@@ -135,7 +134,7 @@ export default function Home() {
 
       {dataCoingecko && dataNintondo && dataNonkyc && height ? (
         <div className="grid grid-flow-row auto-rows-max">
-          <div className="flex justify-center mt-20 lg:mt-2">
+          <div className="flex justify-center mt-2 lg:mt-2">
             <div className="lg:flex justify-between place-content-center text-xs lg:text-sm bg-base-200 rounded-lg">
               <div className="lg:flex grid grid-cols-2 justify-between">
                 <div className="text-center p-4">
@@ -235,7 +234,7 @@ export default function Home() {
       ) : (
         <Loader />
       )}
-      <Footer />
+      
     </div>
   );
 }

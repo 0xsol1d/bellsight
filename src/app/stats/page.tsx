@@ -5,8 +5,11 @@ import { Bar, Line } from "react-chartjs-2";
 import "chart.js/auto";
 import Link from "next/link";
 import * as dateFns from "date-fns";
+import toast, { Toaster } from 'react-hot-toast';
+import { toastStyles } from '../../utils/styles';
 
-import { Navbar, Footer, CopyIcon, Decimal, Loader } from "../../components";
+import { Navbar, CopyIcon, Decimal, Loader } from "../../components";
+import { SATS_PER_BELL, ESPLORA_API, BELLSIGHT_API } from "@/utils/consts";
 
 export default function Stats() {
   const [averageBlockTimes, setAverageBlockTimes] = useState<number[]>([]);
@@ -25,7 +28,7 @@ export default function Stats() {
   const fetchBlocks = async (height?: number) => {
     const url = height
       ? `https://api.nintondo.io/api/blocks/${height}`
-      : "https://api.nintondo.io/api/blocks";
+      : ESPLORA_API + "blocks";
     const response = await fetch(url);
     const result = await response.json();
     return result;
@@ -239,7 +242,7 @@ export default function Stats() {
     <div className="min-h-screen">
       <Navbar />
       <div className="grid">
-        <h1 className="text-center lg:mt-0 mt-16 underline">STATS</h1>
+        <h1 className="text-center lg:mt-0 mt-2 underline">STATS</h1>
         <div className="lg:grid grid-cols-2 p-6 lg:h-[53rem] overflow-auto">
           <div className="mb-12 lg:mt-0 flex justify-center items-center max-h-[20rem]">
             {averageBlockTimesFast.length > 0 ? (
@@ -273,7 +276,7 @@ export default function Stats() {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </div>
   );
 }
