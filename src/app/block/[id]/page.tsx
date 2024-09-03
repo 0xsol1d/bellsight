@@ -154,7 +154,7 @@ export default function Block({ params }: { params: { id: any } }) {
   return (
     <div className="min-h-screen">
       <Navbar />
-      {data && height && txs ? (
+      {data && dataCoingecko && height && txs ? (
         <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-4">
           <h1 className="text-center lg:mt-0 mt-2 underline">BLOCK</h1>
           <div>

@@ -102,7 +102,7 @@ export default function Address({ params }: { params: { id: string } }) {
     <div className="min-h-screen">
       <Navbar />
       <div className="">
-        {data && txs && dataCoingecko ? (
+        {data && dataCoingecko && txs && dataCoingecko ? (
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
             <h1 className="text-center lg:mt-0 mt-2 underline">ADDRESS</h1>
             <div>

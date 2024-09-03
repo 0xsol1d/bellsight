@@ -59,7 +59,7 @@ export default function Tx({ params }: { params: { id: string } }) {
       <Navbar />
 
       <div className="">
-        {data && height && dataCoingecko ? (
+        {data && dataCoingecko && height && dataCoingecko ? (
           <div className="lg:grid grid-flow-row auto-rows-max place-content-center p-2">
             <h1 className="text-center lg:mt-0 mt-2 underline">TX</h1>
             <div>
