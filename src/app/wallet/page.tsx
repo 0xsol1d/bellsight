@@ -677,8 +677,8 @@ const AppEntyPoint = () => {
                         <div className="modal-box">
                           Are you sure you want to inscribe this name?
                           <div className="grid items-center mt-4">
-                            <div>p: "sns"</div>
-                            <div>op: "reg"</div>
+                            <div>{`p: "sns"`}</div>
+                            <div>{`op: "reg"`}</div>
                             <div>
                               {`name: "${
                                 !domainName.includes(".")
@@ -770,8 +770,8 @@ const AppEntyPoint = () => {
                       <div className="modal-box">
                         Are you sure you want to inscribe this namespace?
                         <div className="grid items-center mt-4">
-                          <div>p: "sns"</div>
-                          <div>op: "ns"</div>
+                          <div>{`p: "sns"`}</div>
+                          <div>{`op: "ns"`}</div>
                           <div>{`ns: "${namespaceName.toLocaleLowerCase()}"`}</div>
                           <div>
                             {namespaceAbout != ""
