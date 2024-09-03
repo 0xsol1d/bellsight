@@ -52,6 +52,7 @@ const AppEntyPoint = () => {
   const [feeType, setFeeType] = useState<any>("slow");
   const [initialFetch, setInitialFetch] = useState<any>(false);
 
+  const [imageUrl, setImageUrl] = useState<any>("")
 
   const [send_reciever, setSend_reciever] = useState<any>("");
   const [send_amount, setSend_amount] = useState<string>("0");
@@ -362,6 +363,7 @@ const AppEntyPoint = () => {
       return;
     }
     if (modalRef.current) {
+      setImageUrl(`https://content.nintondo.io/api/pub/content/${namespaceAvatar}`)
       modalRef.current.showModal();
     }
   };
@@ -372,6 +374,7 @@ const AppEntyPoint = () => {
       return;
     }
     if (modalRef2.current) {
+      setImageUrl(`https://content.nintondo.io/api/pub/content/${nameAvatar}`)
       modalRef2.current.showModal();
     }
   };
@@ -693,7 +696,7 @@ const AppEntyPoint = () => {
                             </div>
                             <div className="flex justify-center mt-4">
                               <img
-                                src={`https://content.nintondo.io/api/pub/content/${nameAvatar}`}
+                                src={imageUrl}
                                 alt="none"
                               />
                             </div>
@@ -786,7 +789,7 @@ const AppEntyPoint = () => {
                           <div className="flex justify-center mt-4">
                             {namespaceAvatar && (
                               <img
-                                src={`https://content.nintondo.io/api/pub/content/${namespaceAvatar}`}
+                                src={imageUrl}
                                 alt="none"
                               />
                             )}
