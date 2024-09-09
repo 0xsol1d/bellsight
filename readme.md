@@ -46,6 +46,6 @@ https://11pxl.com
 # You can buy me a coffee
 Donates in $BEL/BELLSCOIN to 
 
-bel1qkjvuwe0tkauxu50ulfyc4e0k4ly3jyk3h32460
+bel1q28etkftchyxh95y32lurk5kpx4c3v67urct754
 
 THX

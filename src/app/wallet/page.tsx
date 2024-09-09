@@ -52,7 +52,7 @@ const AppEntyPoint = () => {
   const [feeType, setFeeType] = useState<any>("slow");
   const [initialFetch, setInitialFetch] = useState<any>(false);
 
-  const [imageUrl, setImageUrl] = useState<any>("")
+  const [imageUrl, setImageUrl] = useState<any>("");
 
   const [send_reciever, setSend_reciever] = useState<any>("");
   const [send_amount, setSend_amount] = useState<string>("0");
@@ -180,6 +180,7 @@ const AppEntyPoint = () => {
       }
     } else {
       toast.error("Nintondo instance is not initialized", toastStyles);
+      toast.error("Nintondo instance is not initialized", toastStyles);
     }
   };
 
@@ -193,6 +194,7 @@ const AppEntyPoint = () => {
         console.error("Failed to connect wallet:", error);
       }
     } else {
+      toast.error("Nintondo instance is not initialized", toastStyles);
       console.error("Nintondo instance is not initialized");
     }
   };
@@ -217,13 +219,13 @@ const AppEntyPoint = () => {
         const result2 = nintondo.api.pushTx(result);
         const bal = await nintondo?.provider.getBalance();
         setBalance(bal);
-        toast.success("TX pushed succesfully", toastStyles)
+        toast.success("TX pushed succesfully", toastStyles);
       } catch (error) {
-        toast.error("Failed to create TX:" + error, toastStyles)
+        toast.error("Failed to create TX:" + error, toastStyles);
         console.error("Failed to create TX:", error);
       }
     } else {
-      toast.error("Nintondo instance is not initialized", toastStyles)
+      toast.error("Nintondo instance is not initialized", toastStyles);
     }
   };
 
@@ -312,9 +314,7 @@ const AppEntyPoint = () => {
         const pushResult2 = await nintondo?.api.pushTx(secondTransaction);
 
         console.log("INSCRIPTION LOCATION", pushResult2);
-        const response = await fetch(
-          ESPLORA_API + "tx/" + pushResult2?.txid
-        );
+        const response = await fetch(ESPLORA_API + "tx/" + pushResult2?.txid);
         const responseText = await response.text();
         const inscriptionId = JSON.parse(responseText);
         /*console.log("INSCRIPTION ID:" + inscriptionId.vin[0].txid + "i0");
@@ -363,7 +363,9 @@ const AppEntyPoint = () => {
       return;
     }
     if (modalRef.current) {
-      setImageUrl(`https://content.nintondo.io/api/pub/content/${namespaceAvatar}`)
+      setImageUrl(
+        `https://content.nintondo.io/api/pub/content/${namespaceAvatar}`
+      );
       modalRef.current.showModal();
     }
   };
@@ -374,7 +376,7 @@ const AppEntyPoint = () => {
       return;
     }
     if (modalRef2.current) {
-      setImageUrl(`https://content.nintondo.io/api/pub/content/${nameAvatar}`)
+      setImageUrl(`https://content.nintondo.io/api/pub/content/${nameAvatar}`);
       modalRef2.current.showModal();
     }
   };
@@ -390,7 +392,7 @@ const AppEntyPoint = () => {
 
   useEffect(() => {
     console.log("Refresh...");
-  }, [feeRate, feeRateSlow, feeRateFast, connected, balance]);
+  }, [feeRateSlow, feeRateFast, connected, balance]);
 
   return (
     <div className="min-h-screen">
@@ -402,12 +404,6 @@ const AppEntyPoint = () => {
               <div className="flex justify-between p-4 items-center">
                 {connected && (
                   <div className="flex gap-2 items-center">
-                    <button
-                      onClick={GetEstimatedFees}
-                      className="btn btn-secondary rounded mr-2"
-                    >
-                      Refresh Fee Rate
-                    </button>
                     <div className="text-center text-sm flex">
                       <div role="tablist" className="tabs tabs-boxed">
                         <a
@@ -457,6 +453,13 @@ const AppEntyPoint = () => {
                           />
                         </div>
                       )}
+
+                      <button
+                        onClick={GetEstimatedFees}
+                        className="btn btn-ghost rounded text-2xl ml-1"
+                      >
+                        ⟳
+                      </button>
                     </div>
                   </div>
                 )}
@@ -484,7 +487,11 @@ const AppEntyPoint = () => {
                 )}
                 {connected && (
                   <div className="dropdown dropdown-hover">
-                    <div tabIndex={0} role="button" className="btn btn-secondary m-1">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn btn-secondary m-1"
+                    >
                       Your SNS
                     </div>
                     <ul
@@ -587,27 +594,37 @@ const AppEntyPoint = () => {
                     <div className="flex justify-between items-center">
                       <div>Amount in $BEL</div>
                       <div className="flex items-center">
-                        <button className="btn btn-secondary mr-2" onClick={() => {const bal = (balance / SATS_PER_BELL).toString(); setSend_amount(bal)}}>
+                        <button
+                          className="btn btn-secondary mr-2"
+                          onClick={() => {
+                            const bal = (balance / SATS_PER_BELL).toString();
+                            setSend_amount(bal);
+                          }}
+                        >
                           MAX
                         </button>
-                      <input
-                        type="text"
-                        placeholder="amount"
-                        className="font-pixel input input-md rounded-lg bg-base-200 w-48"
-                        value={send_amount}
-                        onChange={(e) => {
-                          setSend_amount(e.target.value);
-                        }}
-                      />
+                        <input
+                          type="text"
+                          placeholder="amount"
+                          className="font-pixel input input-md rounded-lg bg-base-200 w-48"
+                          value={send_amount}
+                          onChange={(e) => {
+                            setSend_amount(e.target.value);
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="form-controlflex justify-between items-center">
                       <label className="label cursor-pointer">
-                        <span className="label-text">Reciever pays the fee</span>
+                        <span className="label-text">
+                          Reciever pays the fee
+                        </span>
                         <input
                           type="checkbox"
                           className="checkbox checkbox-primary"
-                          onChange={() => setReceiverToPayFee(!receiverToPayFee)}
+                          onChange={() =>
+                            setReceiverToPayFee(!receiverToPayFee)
+                          }
                         />
                       </label>
                     </div>
@@ -695,10 +712,7 @@ const AppEntyPoint = () => {
                                 : ""}
                             </div>
                             <div className="flex justify-center mt-4">
-                              <img
-                                src={imageUrl}
-                                alt="none"
-                              />
+                              <img src={imageUrl} alt="none" />
                             </div>
                           </div>
                           <div className="modal-action">
@@ -788,10 +802,7 @@ const AppEntyPoint = () => {
                           </div>
                           <div className="flex justify-center mt-4">
                             {namespaceAvatar && (
-                              <img
-                                src={imageUrl}
-                                alt="none"
-                              />
+                              <img src={imageUrl} alt="none" />
                             )}
                           </div>
                         </div>
@@ -816,7 +827,6 @@ const AppEntyPoint = () => {
           <div className="lg:hidden block text-center">
             wallet function not yet supported on mobile
           </div>
-          
         </div>
       )}
     </div>
