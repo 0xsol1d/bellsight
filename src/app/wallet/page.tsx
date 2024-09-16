@@ -138,7 +138,7 @@ const AppEntyPoint = () => {
         }
 
         toast.success(
-          `Refreshed Fee rate\n\nSlow: ${feeRateSlow}/vB\nFast: ${feeRateFast}/vB`,
+          `Refreshed Fee rate`,
           toastStyles
         );
       });
@@ -240,7 +240,7 @@ const AppEntyPoint = () => {
         console.log((domainName.match(/\./g) || []).length);
         if ((domainName.match(/\./g) || []).length > 1) {
           toast.error(
-            "Name has more than to periods.\n\nExample: 'bellsight.bells'",
+            "Name has more than two periods.\n\nExample: 'bellsight.bells'",
             toastStyles
           );
           return;
@@ -557,8 +557,8 @@ const AppEntyPoint = () => {
                         splitTxs({
                           utxos: utxos,
                           feeRate: feeRate,
-                          amount: split_amount,
-                          signleInscriptionCost: split_costs,
+                          amount: parseInt(split_amount),
+                          signleInscriptionCost: parseInt(split_costs),
                           address: address,
                           network: networks.bellcoin,
                           nintondo: nintondo,
